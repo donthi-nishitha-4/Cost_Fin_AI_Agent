@@ -1,14 +1,11 @@
 # Architecture Notes
 
 ## Current validated architecture:
-
-Browser
+Client
    ↓
-FastAPI Server
+FastAPI Routes
    ↓
-Health Endpoint
+Finance Service Layer
+   ↓
+Mock Finance Data
 
-## Verified:
-- API routing
-- OpenAPI generation
-- HTTP response flow
