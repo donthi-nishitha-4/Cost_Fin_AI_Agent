@@ -1,59 +1,51 @@
 from app.services.finance_service import (
-    get_subsystem_cost
+    get_subsystem_cost,
+    get_cost_breakdown
 )
 
 
+# ----------------------------
+# TOOL 1: Subsystem Cost
+# ----------------------------
 def get_subsystem_cost_tool(subsystem_id: int):
-    """
-    Tool function used by LangChain agent to fetch subsystem cost details.
+    subsystem_id = int(subsystem_id)
 
-    Args:
-        subsystem_id (int): ID of subsystem
+    result = get_subsystem_cost(subsystem_id)
 
-    Returns:
-        dict: subsystem cost details or error message
-    """
+    if not result:
+        return {"status": "error", "message": "Subsystem not found"}
 
-    try:
-        # ----------------------------
-        # INPUT VALIDATION
-        # ----------------------------
-        subsystem_id = int(subsystem_id)
+    return {
+        "tool": "subsystem_cost",
+        "status": "success",
+        "subsystem_id": subsystem_id,
+        "data": result
+    }
 
-        if subsystem_id <= 0:
-            return {
-                "status": "error",
-                "message": "subsystem_id must be a positive integer"
-            }
 
-        # ----------------------------
-        # SERVICE CALL
-        # ----------------------------
-        result = get_subsystem_cost(subsystem_id)
+# ----------------------------
+# TOOL 2: Cost Breakdown
+# ----------------------------
+def get_cost_breakdown_tool(subsystem_id: int):
+    subsystem_id = int(subsystem_id)
 
-        # ----------------------------
-        # RESPONSE HANDLING
-        # ----------------------------
-        if not result:
-            return {
-                "status": "error",
-                "message": f"No data found for subsystem_id={subsystem_id}"
-            }
+    result = get_cost_breakdown(subsystem_id)
 
-        return {
-            "status": "success",
-            "subsystem_id": subsystem_id,
-            "data": result
-        }
+    if not result:
+        return {"status": "error", "message": "Breakdown not found"}
 
-    except ValueError:
-        return {
-            "status": "error",
-            "message": "Invalid subsystem_id format. Must be integer."
-        }
+    return {
+        "tool": "cost_breakdown",
+        "status": "success",
+        "subsystem_id": subsystem_id,
+        "data": result
+    }
 
-    except Exception as e:
-        return {
-            "status": "error",
-            "message": f"Unexpected error: {str(e)}"
-        }
+
+# ----------------------------
+# TOOL REGISTRY (IMPORTANT)
+# ----------------------------
+TOOLS = {
+    "subsystem_cost": get_subsystem_cost_tool,
+    "cost_breakdown": get_cost_breakdown_tool
+}

@@ -27,13 +27,18 @@ def finance_agent(query: str):
 
     result = ask_finance_agent(query)
 
+    # ADD THIS LAYER
+    if result.get("status") == "success" and "data" in result:
+
+        data = result["data"]
+
+        return {
+            "query": query,
+            "summary": f"Subsystem {data.get('subsystem')} cost breakdown retrieved successfully",
+            "response": result
+        }
+
     return {
         "query": query,
         "response": result
     }
-
-
-app.include_router(
-    subsystem_router,
-    prefix="/api/v1"
-)

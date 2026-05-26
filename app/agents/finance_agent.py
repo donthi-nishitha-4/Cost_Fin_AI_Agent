@@ -1,51 +1,65 @@
+import json
+import re
 from langchain_ollama import OllamaLLM
+from app.tools.finance_tools import TOOLS
 
-from app.tools.finance_tools import get_subsystem_cost_tool
-
-
-# ----------------------------
-# LLM INIT
-# ----------------------------
 llm = OllamaLLM(model="llama3")
 
 
-# ----------------------------
-# AGENT FUNCTION
-# ----------------------------
+def extract_json(text: str):
+    try:
+        return json.loads(text)
+    except:
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if match:
+            try:
+                return json.loads(match.group())
+            except:
+                return None
+    return None
+
+
 def ask_finance_agent(query: str):
-    """
-    LLM-driven finance agent (Phase 2 upgrade)
-    """
 
-    # STEP 1: Ask LLM to extract intent / subsystem id
+    print("QUERY:", query)
+
     prompt = f"""
-You are a finance assistant for a construction cost system.
+You are a finance AI agent.
 
-You have ONE tool:
-- SubsystemCostTool: returns cost details for a subsystem ID
-
-Task:
-- If query is about subsystem cost, extract ONLY the subsystem ID (integer).
-- If not related or unclear, return INVALID.
-
-Rules:
-- Output ONLY number or INVALID
-- No explanation
-- No extra text
+Return ONLY JSON:
+{{
+  "tool": "subsystem_cost or cost_breakdown or none",
+  "subsystem_id": 1
+}}
 
 User query: {query}
 """
 
     response = llm.invoke(prompt).strip()
 
-    print("LLM RESPONSE:", response)  # DEBUG LINE (important)
+    print("RAW LLM:", response)
 
-    # STEP 2: If valid ID → call tool
-    if response.isdigit():
-        return get_subsystem_cost_tool(response)
+    # SAFE PARSING
+    decision = extract_json(response)
 
-    # STEP 3: fallback
+    # 🔥 CRITICAL FIX (this prevents crash)
+    if not decision:
+        return {
+            "status": "error",
+            "message": "Failed to parse LLM response",
+            "raw": response
+        }
+
+    print("TOOL DECISION:", decision)
+
+    tool = decision.get("tool")
+
+    if tool in TOOLS:
+        return TOOLS[tool](decision.get("subsystem_id"))
+
     return {
-        "status": "error",
-        "message": "Could not understand query. Ask like: 'cost of subsystem 1'"
-    }
+    "status": "success",
+    "tool": "none",
+    "message": "I can help only with finance subsystem queries. Try asking about cost or breakdown.",
+    "query": query
+}
