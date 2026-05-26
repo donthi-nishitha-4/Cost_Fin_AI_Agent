@@ -8,6 +8,13 @@
 - [x] Cost estimation API
 - [x] Budget breakdown API
 - [x] Service layer architecture
+- [x]LLM planner working
+- [x] Tool routing stable
+- [x] Multi-intent handling
+- [x] Safe fallback logic
+- [x] Modular architecture
+- [x] Test harness validation
+- [x] API stability confirmed
 
 ## Pending
 - [ ] LangChain tool integration

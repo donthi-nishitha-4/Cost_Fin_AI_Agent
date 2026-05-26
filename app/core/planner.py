@@ -1,8 +1,6 @@
 import json
 import re
 from langchain_ollama import OllamaLLM
-from app.tools.finance_tools import TOOLS
-from app.core.orchestrator import run_agent
 
 llm = OllamaLLM(model="llama3")
 
@@ -20,5 +18,22 @@ def extract_json(text: str):
     return None
 
 
-def ask_finance_agent(query: str):
-    return run_agent(query)
+def plan(query: str):
+
+    prompt = f"""
+You are a finance AI planner.
+
+Return ONLY JSON:
+{{
+  "tool": "cost_breakdown or subsystem_cost or none",
+  "subsystem_id": 1
+}}
+
+If not finance related → tool = none.
+
+Query: {query}
+"""
+
+    response = llm.invoke(prompt).strip()
+
+    return extract_json(response)
