@@ -3,17 +3,36 @@ from app.services.finance_service import (
     get_cost_breakdown
 )
 
+from app.core.logger import logger
+
 
 # ----------------------------
 # TOOL 1: Subsystem Cost
 # ----------------------------
 def get_subsystem_cost_tool(subsystem_id: int):
+
     subsystem_id = int(subsystem_id)
+
+    logger.info(
+        f"Executing subsystem cost tool for subsystem_id={subsystem_id}"
+    )
 
     result = get_subsystem_cost(subsystem_id)
 
     if not result:
-        return {"status": "error", "message": "Subsystem not found"}
+
+        logger.error(
+            f"Subsystem not found for id={subsystem_id}"
+        )
+
+        return {
+            "status": "error",
+            "message": "Subsystem not found"
+        }
+
+    logger.info(
+        f"Subsystem cost retrieved successfully"
+    )
 
     return {
         "tool": "subsystem_cost",
@@ -27,12 +46,29 @@ def get_subsystem_cost_tool(subsystem_id: int):
 # TOOL 2: Cost Breakdown
 # ----------------------------
 def get_cost_breakdown_tool(subsystem_id: int):
+
     subsystem_id = int(subsystem_id)
+
+    logger.info(
+        f"Executing cost breakdown tool for subsystem_id={subsystem_id}"
+    )
 
     result = get_cost_breakdown(subsystem_id)
 
     if not result:
-        return {"status": "error", "message": "Breakdown not found"}
+
+        logger.error(
+            f"Breakdown not found for id={subsystem_id}"
+        )
+
+        return {
+            "status": "error",
+            "message": "Breakdown not found"
+        }
+
+    logger.info(
+        f"Cost breakdown retrieved successfully"
+    )
 
     return {
         "tool": "cost_breakdown",
@@ -43,7 +79,7 @@ def get_cost_breakdown_tool(subsystem_id: int):
 
 
 # ----------------------------
-# TOOL REGISTRY (IMPORTANT)
+# TOOL REGISTRY
 # ----------------------------
 TOOLS = {
     "subsystem_cost": get_subsystem_cost_tool,
