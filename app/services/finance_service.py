@@ -31,3 +31,26 @@ def get_cost_breakdown(subsystem_id: int):
         "material_cost": data["material_cost"],
         "equipment_cost": data["equipment_cost"]
     }
+
+def get_budget_comparison(subsystem_id: int):
+    data = SUBSYSTEM_DATA.get(subsystem_id)
+
+    if not data:
+        return None
+
+    planned_cost = data["planned_cost"]
+    actual_cost = data["actual_cost"]
+    variance = planned_cost - actual_cost
+
+    if variance >= 0:
+        budget_status = "under_budget"
+    else:
+        budget_status = "over_budget"
+
+    return {
+        "subsystem": data["subsystem"],
+        "planned_cost": planned_cost,
+        "actual_cost": actual_cost,
+        "variance": variance,
+        "budget_status": budget_status
+    }

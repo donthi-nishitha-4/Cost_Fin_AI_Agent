@@ -25,3 +25,22 @@ def test_get_cost_breakdown_returns_cost_categories():
         "material_cost": 35000,
         "equipment_cost": 8000
     }
+
+def test_get_budget_comparison_returns_budget_status():
+    from app.services.finance_service import get_budget_comparison
+
+    result = get_budget_comparison(1)
+
+    assert result == {
+        "subsystem": "Foundation",
+        "planned_cost": 50000,
+        "actual_cost": 42000,
+        "variance": 8000,
+        "budget_status": "under_budget"
+    }
+
+
+def test_get_budget_comparison_returns_none_for_unknown_subsystem():
+    from app.services.finance_service import get_budget_comparison
+
+    assert get_budget_comparison(999) is None

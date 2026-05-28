@@ -68,3 +68,21 @@ Error response:
 {
   "detail": "Subsystem not found"
 }
+
+## Budget Comparison API
+
+GET /api/v1/budget-comparison/{subsystem_id}
+
+Success response:
+{
+  "subsystem": "Foundation",
+  "planned_cost": 50000,
+  "actual_cost": 42000,
+  "variance": 8000,
+  "budget_status": "under_budget"
+}
+
+Error response:
+{
+  "detail": "Subsystem not found"
+}

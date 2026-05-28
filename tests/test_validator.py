@@ -15,6 +15,20 @@ def test_validate_decision_accepts_valid_tool_decision():
         }
     }
 
+def test_validate_decision_accepts_budget_comparison_tool():
+    result = validate_decision({
+        "tool": "budget_comparison",
+        "subsystem_id": "1"
+    })
+
+    assert result == {
+        "valid": True,
+        "decision": {
+            "tool": "budget_comparison",
+            "subsystem_id": 1
+        }
+    }
+
 
 def test_validate_decision_accepts_none_tool_without_subsystem():
     result = validate_decision({

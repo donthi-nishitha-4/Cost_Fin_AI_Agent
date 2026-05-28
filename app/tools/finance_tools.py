@@ -1,6 +1,7 @@
 from app.services.finance_service import (
     get_subsystem_cost,
-    get_cost_breakdown
+    get_cost_breakdown,
+    get_budget_comparison
 )
 
 from app.core.logger import logger
@@ -77,11 +78,46 @@ def get_cost_breakdown_tool(subsystem_id: int):
         "data": result
     }
 
+# ----------------------------
+# TOOL 3: Budget Comparison
+# ----------------------------
+def get_budget_comparison_tool(subsystem_id: int):
+
+    subsystem_id = int(subsystem_id)
+
+    logger.info(
+        f"Executing budget comparison tool for subsystem_id={subsystem_id}"
+    )
+
+    result = get_budget_comparison(subsystem_id)
+
+    if not result:
+
+        logger.error(
+            f"Budget comparison not found for id={subsystem_id}"
+        )
+
+        return {
+            "status": "error",
+            "message": "Budget comparison not found"
+        }
+
+    logger.info(
+        "Budget comparison retrieved successfully"
+    )
+
+    return {
+        "tool": "budget_comparison",
+        "status": "success",
+        "subsystem_id": subsystem_id,
+        "data": result
+    }
 
 # ----------------------------
 # TOOL REGISTRY
 # ----------------------------
 TOOLS = {
     "subsystem_cost": get_subsystem_cost_tool,
-    "cost_breakdown": get_cost_breakdown_tool
+    "cost_breakdown": get_cost_breakdown_tool,
+    "budget_comparison": get_budget_comparison_tool
 }

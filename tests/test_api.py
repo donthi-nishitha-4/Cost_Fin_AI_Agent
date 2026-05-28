@@ -31,9 +31,29 @@ def test_breakdown_endpoint_returns_cost_breakdown():
     assert response.json()["subsystem"] == "Electrical"
     assert response.json()["material_cost"] == 35000
 
+def test_budget_comparison_endpoint_returns_budget_status():
+    response = client.get("/api/v1/budget-comparison/1")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "subsystem": "Foundation",
+        "planned_cost": 50000,
+        "actual_cost": 42000,
+        "variance": 8000,
+        "budget_status": "under_budget"
+    }
+
 
 def test_cost_endpoint_returns_404_for_unknown_subsystem():
     response = client.get("/api/v1/costs/999")
+
+    assert response.status_code == 404
+    assert response.json() == {
+        "detail": "Subsystem not found"
+    }
+
+def test_budget_comparison_endpoint_returns_404_for_unknown_subsystem():
+    response = client.get("/api/v1/budget-comparison/999")
 
     assert response.status_code == 404
     assert response.json() == {

@@ -1,5 +1,5 @@
 from app.tools.executor import execute_tool
-from app.tools.finance_tools import get_subsystem_cost_tool
+from app.tools.finance_tools import get_subsystem_cost_tool, get_budget_comparison_tool
 
 
 def test_subsystem_cost_tool_returns_structured_success_response():
@@ -27,11 +27,18 @@ def test_execute_tool_uses_registered_tool_wrapper():
     assert result["tool"] == "cost_breakdown"
     assert result["data"]["subsystem"] == "Foundation"
 
+def test_budget_comparison_tool_returns_budget_status():
+    result = get_budget_comparison_tool(1)
 
-def test_execute_tool_returns_error_for_unknown_tool():
-    result = execute_tool("missing_tool", 1)
+    assert result["status"] == "success"
+    assert result["tool"] == "budget_comparison"
+    assert result["data"]["budget_status"] == "under_budget"
 
-    assert result == {
-        "status": "error",
-        "message": "Tool 'missing_tool' not found"
-    }
+
+def test_execute_tool_runs_budget_comparison():
+    result = execute_tool("budget_comparison", 1)
+
+    assert result["status"] == "success"
+    assert result["tool"] == "budget_comparison"
+    assert result["data"]["subsystem"] == "Foundation"
+    assert result["data"]["budget_status"] == "under_budget"

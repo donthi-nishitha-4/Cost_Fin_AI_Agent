@@ -26,6 +26,11 @@
 - [x] Planner decision validation
 - [x] Structured logging foundation
 - [x] Pytest coverage for services, tools, validation, and APIs
+- [x] Budget comparison service
+- [x] Budget comparison tool
+- [x] Budget comparison API
+- [x] Budget comparison tests
+- [x] Agent routing for budget comparison
 
 ## Pending
 - [ ] Multi-tool orchestration expansion

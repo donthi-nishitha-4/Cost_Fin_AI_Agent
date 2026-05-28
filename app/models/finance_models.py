@@ -13,3 +13,10 @@ class CostBreakdownResponse(BaseModel):
     labor_cost: float
     material_cost: float
     equipment_cost: float
+
+class BudgetComparisonResponse(BaseModel):
+    subsystem: str
+    planned_cost: float
+    actual_cost: float
+    variance: float
+    budget_status: str

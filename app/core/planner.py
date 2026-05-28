@@ -25,11 +25,11 @@ You are a finance AI planner.
 
 Return ONLY JSON:
 {{
-  "tool": "cost_breakdown or subsystem_cost or none",
+  "tool": "cost_breakdown or subsystem_cost or budget_comparison or none",
   "subsystem_id": 1
 }}
 
-If not finance related → tool = none.
+If not finance related, tool = none.
 
 Query: {query}
 """
