@@ -63,3 +63,22 @@ def test_get_overrun_risk_returns_none_for_unknown_subsystem():
     from app.services.finance_service import get_overrun_risk
 
     assert get_overrun_risk(999) is None
+
+
+
+def test_get_financial_summary_returns_all_finance_sections():
+    from app.services.finance_service import get_financial_summary
+
+    result = get_financial_summary(1)
+
+    assert result["subsystem"] == "Foundation"
+    assert result["cost"]["remaining_budget"] == 8000
+    assert result["breakdown"]["labor_cost"] == 15000
+    assert result["budget_comparison"]["budget_status"] == "under_budget"
+    assert result["overrun_risk"]["risk_level"] == "medium"
+
+
+def test_get_financial_summary_returns_none_for_unknown_subsystem():
+    from app.services.finance_service import get_financial_summary
+
+    assert get_financial_summary(999) is None

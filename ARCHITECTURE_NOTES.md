@@ -30,6 +30,7 @@ Finance Data
 - GET /api/v1/breakdown/{subsystem_id}
 - GET /api/v1/budget-comparison/{subsystem_id}
 - GET /api/v1/overrun-risk/{subsystem_id}
+- GET /api/v1/financial-summary/{subsystem_id}
 
 ## Current safeguards
 
@@ -38,3 +39,4 @@ Finance Data
 - Finance tool calls emit structured log messages.
 - Budget comparison is available through service, tool, API, and agent layers.
 - Overrun risk is available through service, tool, API, and agent layers.
+- Financial summary combines cost, breakdown, budget comparison, and overrun risk into one response.

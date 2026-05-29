@@ -4,14 +4,16 @@ from app.services.finance_service import (
     get_subsystem_cost,
     get_cost_breakdown,
     get_budget_comparison,
-    get_overrun_risk
+    get_overrun_risk,
+    get_financial_summary
 )
 
 from app.models.finance_models import (
     CostResponse,
     CostBreakdownResponse,
     BudgetComparisonResponse,
-    OverrunRiskResponse
+    OverrunRiskResponse,
+    FinancialSummaryResponse
 )
 
 router = APIRouter()
@@ -73,6 +75,22 @@ def fetch_budget_comparison(subsystem_id: int):
 def fetch_overrun_risk(subsystem_id: int):
 
     result = get_overrun_risk(subsystem_id)
+
+    if not result:
+        raise HTTPException(
+            status_code=404,
+            detail="Subsystem not found"
+        )
+
+    return result
+
+@router.get(
+    "/financial-summary/{subsystem_id}",
+    response_model=FinancialSummaryResponse
+)
+def fetch_financial_summary(subsystem_id: int):
+
+    result = get_financial_summary(subsystem_id)
 
     if not result:
         raise HTTPException(

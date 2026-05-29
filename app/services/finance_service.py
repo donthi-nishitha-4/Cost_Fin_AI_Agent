@@ -80,3 +80,21 @@ def get_overrun_risk(subsystem_id: int):
         "utilization_percent": utilization_percent,
         "risk_level": risk_level
     }
+def get_financial_summary(subsystem_id: int):
+    cost = get_subsystem_cost(subsystem_id)
+    breakdown = get_cost_breakdown(subsystem_id)
+    budget_comparison = get_budget_comparison(subsystem_id)
+    overrun_risk = get_overrun_risk(subsystem_id)
+
+    if not cost:
+        return None
+
+    return {
+        "subsystem": cost["subsystem"],
+        "cost": cost,
+        "breakdown": breakdown,
+        "budget_comparison": budget_comparison,
+        "overrun_risk": overrun_risk
+    }
+
+

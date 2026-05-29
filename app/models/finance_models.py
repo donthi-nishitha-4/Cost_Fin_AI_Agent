@@ -27,3 +27,10 @@ class OverrunRiskResponse(BaseModel):
     actual_cost: float
     utilization_percent: float
     risk_level: str
+
+class FinancialSummaryResponse(BaseModel):
+    subsystem: str
+    cost: CostResponse
+    breakdown: CostBreakdownResponse
+    budget_comparison: BudgetComparisonResponse
+    overrun_risk: OverrunRiskResponse

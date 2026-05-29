@@ -43,6 +43,20 @@ def test_validate_decision_accepts_overrun_risk_tool():
         }
     }
 
+def test_validate_decision_accepts_financial_summary_tool():
+    result = validate_decision({
+        "tool": "financial_summary",
+        "subsystem_id": "1"
+    })
+
+    assert result == {
+        "valid": True,
+        "decision": {
+            "tool": "financial_summary",
+            "subsystem_id": 1
+        }
+    }
+
 def test_validate_decision_accepts_none_tool_without_subsystem():
     result = validate_decision({
         "tool": "none"

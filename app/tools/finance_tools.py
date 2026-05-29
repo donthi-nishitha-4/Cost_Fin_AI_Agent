@@ -2,7 +2,8 @@ from app.services.finance_service import (
     get_subsystem_cost,
     get_cost_breakdown,
     get_budget_comparison,
-    get_overrun_risk
+    get_overrun_risk,
+    get_financial_summary
 )
 
 from app.core.logger import logger
@@ -150,6 +151,40 @@ def get_overrun_risk_tool(subsystem_id: int):
         "data": result
     }
 
+# ----------------------------
+# TOOL 5: Financial Summary
+# ----------------------------
+def get_financial_summary_tool(subsystem_id: int):
+
+    subsystem_id = int(subsystem_id)
+
+    logger.info(
+        f"Executing financial summary tool for subsystem_id={subsystem_id}"
+    )
+
+    result = get_financial_summary(subsystem_id)
+
+    if not result:
+
+        logger.error(
+            f"Financial summary not found for id={subsystem_id}"
+        )
+
+        return {
+            "status": "error",
+            "message": "Financial summary not found"
+        }
+
+    logger.info(
+        "Financial summary retrieved successfully"
+    )
+
+    return {
+        "tool": "financial_summary",
+        "status": "success",
+        "subsystem_id": subsystem_id,
+        "data": result
+    }
 
 # ----------------------------
 # TOOL REGISTRY
@@ -158,5 +193,6 @@ TOOLS = {
     "subsystem_cost": get_subsystem_cost_tool,
     "cost_breakdown": get_cost_breakdown_tool,
     "budget_comparison": get_budget_comparison_tool,
-    "overrun_risk": get_overrun_risk_tool
+    "overrun_risk": get_overrun_risk_tool,
+    "financial_summary": get_financial_summary_tool
 }

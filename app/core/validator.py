@@ -3,6 +3,7 @@ VALID_TOOLS = {
     "cost_breakdown",
     "budget_comparison",
     "overrun_risk",
+    "financial_summary",
     "none"
 }
 

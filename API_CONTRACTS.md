@@ -104,3 +104,43 @@ Error response:
 {
   "detail": "Subsystem not found"
 }
+
+## Financial Summary API
+
+GET /api/v1/financial-summary/{subsystem_id}
+
+Success response:
+{
+  "subsystem": "Foundation",
+  "cost": {
+    "subsystem": "Foundation",
+    "planned_cost": 50000,
+    "actual_cost": 42000,
+    "remaining_budget": 8000
+  },
+  "breakdown": {
+    "subsystem": "Foundation",
+    "labor_cost": 15000,
+    "material_cost": 22000,
+    "equipment_cost": 5000
+  },
+  "budget_comparison": {
+    "subsystem": "Foundation",
+    "planned_cost": 50000,
+    "actual_cost": 42000,
+    "variance": 8000,
+    "budget_status": "under_budget"
+  },
+  "overrun_risk": {
+    "subsystem": "Foundation",
+    "planned_cost": 50000,
+    "actual_cost": 42000,
+    "utilization_percent": 84.0,
+    "risk_level": "medium"
+  }
+}
+
+Error response:
+{
+  "detail": "Subsystem not found"
+}

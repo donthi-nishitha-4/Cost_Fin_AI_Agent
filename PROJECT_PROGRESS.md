@@ -36,6 +36,11 @@
 - [x] Overrun risk API
 - [x] Overrun risk tests
 - [x] Agent routing for overrun risk
+- [x] Financial summary service
+- [x] Financial summary tool
+- [x] Financial summary API
+- [x] Financial summary tests
+- [x] Agent routing for financial summary
 
 ## Pending
 - [ ] Multi-tool orchestration expansion

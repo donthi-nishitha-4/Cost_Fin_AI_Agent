@@ -25,10 +25,11 @@ You are a finance AI planner.
 
 Return ONLY JSON:
 {{
-  "tool": "cost_breakdown or subsystem_cost or budget_comparison or overrun_risk or none",
+  "tool": "cost_breakdown or subsystem_cost or budget_comparison or overrun_risk or financial_summary or none",
   "subsystem_id": 1
 }}
 
+Use financial_summary for full summary, complete summary, overall summary, full financial details, or complete financial details.
 Use subsystem_cost for cost, planned cost, actual cost, or remaining budget.
 Use cost_breakdown for labor, material, equipment, or breakdown questions.
 Use budget_comparison for over budget, under budget, variance, planned vs actual questions.
