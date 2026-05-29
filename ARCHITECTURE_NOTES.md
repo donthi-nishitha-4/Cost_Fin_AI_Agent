@@ -18,6 +18,8 @@ Tool Executor
     |
 Finance Tools
     |
+Response Formatter
+    |
 Service Layer
     |
 Finance Data
@@ -40,3 +42,4 @@ Finance Data
 - Budget comparison is available through service, tool, API, and agent layers.
 - Overrun risk is available through service, tool, API, and agent layers.
 - Financial summary combines cost, breakdown, budget comparison, and overrun risk into one response.
+- Agent responses include both human-readable answers and raw structured data.

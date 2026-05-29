@@ -1,3 +1,4 @@
+from app.core.response_formatter import format_agent_response
 from app.core.planner import plan
 from app.core.validator import validate_decision
 from app.core.logger import logger
@@ -36,11 +37,13 @@ def run_agent(query: str):
 
     if tool == "none":
         logger.info("No finance tool selected for query")
-        return {
+        agent_result = {
             "status": "success",
             "tool": "none",
             "message": "Ask about subsystem cost or breakdown"
         }
+
+        return format_agent_response(agent_result)
 
     subsystem_id = decision.get("subsystem_id")
 
@@ -48,9 +51,11 @@ def run_agent(query: str):
 
     logger.info(f"Tool execution completed: tool={tool}, subsystem_id={subsystem_id}")
 
-    return {
+    agent_result= {
         "status": "success",
         "tool": tool,
         "subsystem_id": subsystem_id,
         "data": result
     }
+    
+    return format_agent_response(agent_result)

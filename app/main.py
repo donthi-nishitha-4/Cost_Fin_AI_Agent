@@ -21,6 +21,7 @@ def finance_agent(query: str):
     result = ask_finance_agent(query)
 
     return {
-        "query": query,
-        "result": result
-    }
+    "query": query,
+    "answer": result.get("answer"),
+    "result": result
+}

@@ -41,6 +41,9 @@
 - [x] Financial summary API
 - [x] Financial summary tests
 - [x] Agent routing for financial summary
+- [x] Agent response formatter
+- [x] Human-readable answer field in agent responses
+- [x] Response formatter tests
 
 ## Pending
 - [ ] Multi-tool orchestration expansion
