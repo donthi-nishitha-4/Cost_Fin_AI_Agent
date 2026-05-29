@@ -3,13 +3,15 @@ from fastapi import APIRouter, HTTPException
 from app.services.finance_service import (
     get_subsystem_cost,
     get_cost_breakdown,
-    get_budget_comparison
+    get_budget_comparison,
+    get_overrun_risk
 )
 
 from app.models.finance_models import (
     CostResponse,
     CostBreakdownResponse,
-    BudgetComparisonResponse
+    BudgetComparisonResponse,
+    OverrunRiskResponse
 )
 
 router = APIRouter()
@@ -55,6 +57,22 @@ def fetch_cost_breakdown(subsystem_id: int):
 def fetch_budget_comparison(subsystem_id: int):
 
     result = get_budget_comparison(subsystem_id)
+
+    if not result:
+        raise HTTPException(
+            status_code=404,
+            detail="Subsystem not found"
+        )
+
+    return result
+
+@router.get(
+    "/overrun-risk/{subsystem_id}",
+    response_model=OverrunRiskResponse
+)
+def fetch_overrun_risk(subsystem_id: int):
+
+    result = get_overrun_risk(subsystem_id)
 
     if not result:
         raise HTTPException(

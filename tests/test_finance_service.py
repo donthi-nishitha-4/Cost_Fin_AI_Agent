@@ -44,3 +44,22 @@ def test_get_budget_comparison_returns_none_for_unknown_subsystem():
     from app.services.finance_service import get_budget_comparison
 
     assert get_budget_comparison(999) is None
+
+def test_get_overrun_risk_returns_risk_level():
+    from app.services.finance_service import get_overrun_risk
+
+    result = get_overrun_risk(1)
+
+    assert result == {
+        "subsystem": "Foundation",
+        "planned_cost": 50000,
+        "actual_cost": 42000,
+        "utilization_percent": 84.0,
+        "risk_level": "medium"
+    }
+
+
+def test_get_overrun_risk_returns_none_for_unknown_subsystem():
+    from app.services.finance_service import get_overrun_risk
+
+    assert get_overrun_risk(999) is None

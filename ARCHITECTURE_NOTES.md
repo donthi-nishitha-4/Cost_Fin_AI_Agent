@@ -29,6 +29,7 @@ Finance Data
 - GET /api/v1/costs/{subsystem_id}
 - GET /api/v1/breakdown/{subsystem_id}
 - GET /api/v1/budget-comparison/{subsystem_id}
+- GET /api/v1/overrun-risk/{subsystem_id}
 
 ## Current safeguards
 
@@ -36,3 +37,4 @@ Finance Data
 - Tool execution goes through registered tool wrappers.
 - Finance tool calls emit structured log messages.
 - Budget comparison is available through service, tool, API, and agent layers.
+- Overrun risk is available through service, tool, API, and agent layers.

@@ -2,6 +2,7 @@ VALID_TOOLS = {
     "subsystem_cost",
     "cost_breakdown",
     "budget_comparison",
+    "overrun_risk",
     "none"
 }
 

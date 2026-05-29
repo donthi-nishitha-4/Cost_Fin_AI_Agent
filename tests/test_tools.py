@@ -1,5 +1,5 @@
 from app.tools.executor import execute_tool
-from app.tools.finance_tools import get_subsystem_cost_tool, get_budget_comparison_tool
+from app.tools.finance_tools import get_subsystem_cost_tool, get_budget_comparison_tool, get_overrun_risk_tool
 
 
 def test_subsystem_cost_tool_returns_structured_success_response():
@@ -42,3 +42,21 @@ def test_execute_tool_runs_budget_comparison():
     assert result["tool"] == "budget_comparison"
     assert result["data"]["subsystem"] == "Foundation"
     assert result["data"]["budget_status"] == "under_budget"
+
+def test_overrun_risk_tool_returns_structured_success_response():
+    result = get_overrun_risk_tool(1)
+
+    assert result["status"] == "success"
+    assert result["tool"] == "overrun_risk"
+    assert result["subsystem_id"] == 1
+    assert result["data"]["utilization_percent"] == 84.0
+    assert result["data"]["risk_level"] == "medium"
+
+
+def test_execute_tool_runs_overrun_risk():
+    result = execute_tool("overrun_risk", 1)
+
+    assert result["status"] == "success"
+    assert result["tool"] == "overrun_risk"
+    assert result["data"]["subsystem"] == "Foundation"
+    assert result["data"]["risk_level"] == "medium"

@@ -54,3 +54,29 @@ def get_budget_comparison(subsystem_id: int):
         "variance": variance,
         "budget_status": budget_status
     }
+
+def get_overrun_risk(subsystem_id: int):
+    data = SUBSYSTEM_DATA.get(subsystem_id)
+
+    if not data:
+        return None
+
+    planned_cost = data["planned_cost"]
+    actual_cost = data["actual_cost"]
+
+    utilization_percent = round((actual_cost / planned_cost) * 100, 2)
+
+    if utilization_percent >= 90:
+        risk_level = "high"
+    elif utilization_percent >= 75:
+        risk_level = "medium"
+    else:
+        risk_level = "low"
+
+    return {
+        "subsystem": data["subsystem"],
+        "planned_cost": planned_cost,
+        "actual_cost": actual_cost,
+        "utilization_percent": utilization_percent,
+        "risk_level": risk_level
+    }

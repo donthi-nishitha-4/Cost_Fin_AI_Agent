@@ -20,3 +20,10 @@ class BudgetComparisonResponse(BaseModel):
     actual_cost: float
     variance: float
     budget_status: str
+
+class OverrunRiskResponse(BaseModel):
+    subsystem: str
+    planned_cost: float
+    actual_cost: float
+    utilization_percent: float
+    risk_level: str

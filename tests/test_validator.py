@@ -29,6 +29,19 @@ def test_validate_decision_accepts_budget_comparison_tool():
         }
     }
 
+def test_validate_decision_accepts_overrun_risk_tool():
+    result = validate_decision({
+        "tool": "overrun_risk",
+        "subsystem_id": "1"
+    })
+
+    assert result == {
+        "valid": True,
+        "decision": {
+            "tool": "overrun_risk",
+            "subsystem_id": 1
+        }
+    }
 
 def test_validate_decision_accepts_none_tool_without_subsystem():
     result = validate_decision({

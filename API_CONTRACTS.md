@@ -86,3 +86,21 @@ Error response:
 {
   "detail": "Subsystem not found"
 }
+
+## Overrun Risk API
+
+GET /api/v1/overrun-risk/{subsystem_id}
+
+Success response:
+{
+  "subsystem": "Foundation",
+  "planned_cost": 50000,
+  "actual_cost": 42000,
+  "utilization_percent": 84.0,
+  "risk_level": "medium"
+}
+
+Error response:
+{
+  "detail": "Subsystem not found"
+}

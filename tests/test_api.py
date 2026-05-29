@@ -43,6 +43,17 @@ def test_budget_comparison_endpoint_returns_budget_status():
         "budget_status": "under_budget"
     }
 
+def test_overrun_risk_endpoint_returns_risk_level():
+    response = client.get("/api/v1/overrun-risk/1")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "subsystem": "Foundation",
+        "planned_cost": 50000,
+        "actual_cost": 42000,
+        "utilization_percent": 84.0,
+        "risk_level": "medium"
+    }
 
 def test_cost_endpoint_returns_404_for_unknown_subsystem():
     response = client.get("/api/v1/costs/999")
@@ -54,6 +65,13 @@ def test_cost_endpoint_returns_404_for_unknown_subsystem():
 
 def test_budget_comparison_endpoint_returns_404_for_unknown_subsystem():
     response = client.get("/api/v1/budget-comparison/999")
+
+    assert response.status_code == 404
+    assert response.json() == {
+        "detail": "Subsystem not found"
+    }
+def test_overrun_risk_endpoint_returns_404_for_unknown_subsystem():
+    response = client.get("/api/v1/overrun-risk/999")
 
     assert response.status_code == 404
     assert response.json() == {

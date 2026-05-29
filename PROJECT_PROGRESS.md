@@ -31,6 +31,11 @@
 - [x] Budget comparison API
 - [x] Budget comparison tests
 - [x] Agent routing for budget comparison
+- [x] Overrun risk service
+- [x] Overrun risk tool
+- [x] Overrun risk API
+- [x] Overrun risk tests
+- [x] Agent routing for overrun risk
 
 ## Pending
 - [ ] Multi-tool orchestration expansion
