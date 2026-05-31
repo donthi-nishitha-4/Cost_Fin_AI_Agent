@@ -15,6 +15,12 @@ def test_health_check():
         "service": "Cost Finance AI Agent"
     }
 
+def test_response_includes_request_id_header():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "X-Request-ID" in response.headers
+
 
 def test_cost_endpoint_returns_subsystem_cost():
     response = client.get("/api/v1/costs/1")
@@ -96,4 +102,19 @@ def test_financial_summary_endpoint_returns_404_for_unknown_subsystem():
     assert response.status_code == 404
     assert response.json() == {
         "detail": "Subsystem not found"
+    }
+
+def test_global_exception_handler_returns_consistent_error_response():
+    error_client = TestClient(app, raise_server_exceptions=False)
+
+    @app.get("/test-error")
+    def test_error():
+        raise RuntimeError("Boom")
+
+    response = error_client.get("/test-error")
+
+    assert response.status_code == 500
+    assert response.json() == {
+        "status": "error",
+        "message": "Internal server error"
     }

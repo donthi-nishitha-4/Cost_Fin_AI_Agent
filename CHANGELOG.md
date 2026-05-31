@@ -1,3 +1,17 @@
+## v0.5 - Config Foundation and Middleware Cleanup
+
+### Added
+- Centralized settings module backed by `.env`
+- Environment-driven project name, log level, and LLM model
+- Request correlation IDs
+- Global error handler
+
+### Updated
+- README, architecture notes, API contracts, and debugging guide
+
+### Status
+Phase 2 cleanup complete, ready to begin Phase 3 configuration and persistence work.
+
 ## v0.4 - Agent Response Formatting
 
 ### Added

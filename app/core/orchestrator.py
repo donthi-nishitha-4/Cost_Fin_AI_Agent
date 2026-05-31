@@ -55,7 +55,7 @@ def run_agent(query: str):
         "status": "success",
         "tool": tool,
         "subsystem_id": subsystem_id,
-        "data": result
+        "data": result.get("data")
     }
     
     return format_agent_response(agent_result)

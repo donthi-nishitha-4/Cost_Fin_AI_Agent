@@ -3,8 +3,7 @@ def format_agent_response(agent_result: dict):
         return agent_result
 
     tool = agent_result.get("tool")
-    tool_result = agent_result.get("data", {})
-    data = tool_result.get("data", tool_result)
+    data = agent_result.get("data", {})
 
     answer = build_answer(tool, data)
 

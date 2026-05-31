@@ -7,16 +7,11 @@ def test_format_agent_response_adds_subsystem_cost_answer():
         "tool": "subsystem_cost",
         "subsystem_id": 1,
         "data": {
-            "tool": "subsystem_cost",
-            "status": "success",
-            "subsystem_id": 1,
-            "data": {
-                "subsystem": "Foundation",
-                "planned_cost": 50000,
-                "actual_cost": 42000,
-                "remaining_budget": 8000
-            }
-        }
+            "subsystem": "Foundation",
+            "planned_cost": 50000,
+            "actual_cost": 42000,
+            "remaining_budget": 8000
+    }
     })
 
     assert result["answer"] == (
@@ -30,32 +25,27 @@ def test_format_agent_response_adds_financial_summary_answer():
         "status": "success",
         "tool": "financial_summary",
         "subsystem_id": 1,
-        "data": {
-            "tool": "financial_summary",
-            "status": "success",
-            "subsystem_id": 1,
-            "data": {
-                "subsystem": "Foundation",
-                "cost": {
-                    "planned_cost": 50000,
-                    "actual_cost": 42000,
-                    "remaining_budget": 8000
-                },
-                "breakdown": {
-                    "labor_cost": 15000,
-                    "material_cost": 22000,
-                    "equipment_cost": 5000
-                },
-                "budget_comparison": {
-                    "planned_cost": 50000,
-                    "actual_cost": 42000,
-                    "variance": 8000,
-                    "budget_status": "under_budget"
-                },
-                "overrun_risk": {
-                    "utilization_percent": 84.0,
-                    "risk_level": "medium"
-                }
+         "data": {
+            "subsystem": "Foundation",
+            "cost": {
+                "planned_cost": 50000,
+                "actual_cost": 42000,
+                "remaining_budget": 8000
+            },
+            "breakdown": {
+                "labor_cost": 15000,
+                "material_cost": 22000,
+                "equipment_cost": 5000
+            },
+            "budget_comparison": {
+                "planned_cost": 50000,
+                "actual_cost": 42000,
+                "variance": 8000,
+                "budget_status": "under_budget"
+            },
+            "overrun_risk": {
+                "utilization_percent": 84.0,
+                "risk_level": "medium"
             }
         }
     })

@@ -5,17 +5,20 @@ and finance analytics in construction/project systems.
 
 ## Current Version
 
-Phase 2 multi-tool finance agent foundation.
+Phase 2 multi-tool finance agent foundation with response formatting and middleware cleanup.
 
 ## Features implemented
 
 - FastAPI backend
 - Health check endpoint
 - Versioned finance APIs
+- Config management through `.env`
 - LangChain/Ollama-based planner
 - Tool registry and executor
 - Planner decision validation
 - Structured logging foundation
+- Request correlation IDs
+- Global error handling
 - Mock finance dataset integration
 - Human-readable agent response formatting
 - Automated pytest coverage
@@ -43,16 +46,35 @@ Phase 2 multi-tool finance agent foundation.
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
 ```
+
 ## Run tests
-```
+
+```powershell
 .\.venv\Scripts\python.exe -m pytest
 ```
-### Current status:
-    38 passed
+
+## Current status
+
+```text
+40 passed
+```
 
 ## Demo query
-```
+
+```powershell
 curl "http://127.0.0.1:8000/agent?query=give%20me%20full%20financial%20summary%20of%20subsystem%201"
 ```
 
-### The agent response includes: A human-readable answer & raw structured finance data
+The agent response includes:
+
+- a human-readable answer
+- raw structured finance data
+
+## Config
+
+Environment values are loaded from `.env`:
+
+- `PROJECT_NAME`
+- `ENVIRONMENT`
+- `LOG_LEVEL`
+- `LLM_MODEL`

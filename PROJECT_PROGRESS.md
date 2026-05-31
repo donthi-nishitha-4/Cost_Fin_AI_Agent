@@ -44,12 +44,14 @@
 - [x] Agent response formatter
 - [x] Human-readable answer field in agent responses
 - [x] Response formatter tests
+- [x] Request correlation IDs
+- [x] Global error handling
+- [x] Config management foundation
 
 ## Pending
 - [ ] Multi-tool orchestration expansion
-- [ ] Request correlation IDs
 - [ ] Observability & tracing
-- [ ] Config management
+- [ ] Persistent settings documentation
 - [ ] Error middleware
 - [ ] PostgreSQL integration
 - [ ] Persistent finance storage

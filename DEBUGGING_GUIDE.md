@@ -86,8 +86,14 @@ and:
 Expected:
 
 ```text
-38 passed
+40 passed
 ```
+
+## Config Notes
+
+- `.env` now drives `PROJECT_NAME`, `ENVIRONMENT`, `LOG_LEVEL`, and `LLM_MODEL`
+- `app/core/settings.py` is the single source of truth for app configuration
+- If the app title or model changes, update `.env` first
 
 ## Common Issues
 
