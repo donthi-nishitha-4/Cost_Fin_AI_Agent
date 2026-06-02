@@ -1,3 +1,16 @@
+## v0.6 - SQLite Persistence Foundation
+
+### Added
+- SQLite database config
+- SQLAlchemy engine and session setup
+- Explicit database initialization script
+- Mock finance data seeding into SQLite
+- Repository layer for finance reads
+- DB-backed finance service helpers
+
+### Status
+Phase 3 persistence foundation is now in place.
+
 ## v0.5 - Config Foundation and Middleware Cleanup
 
 ### Added

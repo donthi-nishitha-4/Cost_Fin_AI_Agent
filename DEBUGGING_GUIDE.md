@@ -174,3 +174,35 @@ Make sure `.gitignore` includes:
 __pycache__/
 *.pyc
 ```
+## Phase 3 Database Check
+
+Run the SQLite initializer:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.init_db
+
+SQLite is the first Phase 3 persistence layer.
+
+Then verify the app still passes tests:
+
+.\.venv\Scripts\python.exe -m pytest
+Expected:
+
+44 passed
+
+**5. `CHANGELOG.md`**
+Add a new top entry:
+
+```md
+## v0.6 - SQLite Persistence Foundation
+
+### Added
+- SQLite database config
+- SQLAlchemy engine and session setup
+- Explicit database initialization script
+- Mock finance data seeding into SQLite
+- Repository layer for finance reads
+- DB-backed finance service helpers
+
+### Status
+Phase 3 persistence foundation is now in place.

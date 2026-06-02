@@ -5,7 +5,7 @@ and finance analytics in construction/project systems.
 
 ## Current Version
 
-Phase 2 multi-tool finance agent foundation with response formatting and middleware cleanup.
+Phase 3 configuration and SQLite persistence foundation.
 
 ## Features implemented
 
@@ -13,13 +13,15 @@ Phase 2 multi-tool finance agent foundation with response formatting and middlew
 - Health check endpoint
 - Versioned finance APIs
 - Config management through `.env`
+- SQLite database foundation
+- SQLAlchemy engine and session setup
+- Database seeding from mock finance data
 - LangChain/Ollama-based planner
 - Tool registry and executor
 - Planner decision validation
 - Structured logging foundation
 - Request correlation IDs
 - Global error handling
-- Mock finance dataset integration
 - Human-readable agent response formatting
 - Automated pytest coverage
 
@@ -56,7 +58,7 @@ Phase 2 multi-tool finance agent foundation with response formatting and middlew
 ## Current status
 
 ```text
-40 passed
+44 passed
 ```
 
 ## Demo query
@@ -78,3 +80,16 @@ Environment values are loaded from `.env`:
 - `ENVIRONMENT`
 - `LOG_LEVEL`
 - `LLM_MODEL`
+- `DATABASE_URL`
+- `DB_ECHO`
+
+## Persistence
+
+SQLite is used as the first Phase 3 persistence layer.
+
+Initialize the database manually with:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.init_db
+
+SQLite is the first Phase 3 persistence layer.

@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     environment: str = Field(default="development")
     log_level: str = Field(default="INFO")
     llm_model: str = Field(default="llama3")
+    database_url: str = Field(default="sqlite:///./finance.db")
+    db_echo: bool = Field(default=False)
 
     model_config = SettingsConfigDict(
         env_file=".env",

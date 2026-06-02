@@ -26,7 +26,23 @@ Finance Data
 
 ## Config layer
 
-`.env` -> `app/core/settings.py` -> app title, log level, and LLM model
+`.env` -> `app/core/settings.py` -> app title, log level, and LLM model, database URL
+
+## Persistence layer
+
+`scripts/init_db.py` -> SQLAlchemy initializer.
+`app/core/database.py` -> SQLAlchemy engine/session
+`app/core/seed_database.py` -> seed SQLite from mock finance data
+`app/repositories/finance_repository.py` -> database reads
+
+## Persistence tools
+
+- `scripts/init_db.py` initializes the SQLite database.
+- `app/core/database.py` creates the SQLAlchemy engine and session factory.
+- `app/core/seed_database.py` seeds the database from mock finance data.
+- `app/repositories/finance_repository.py` handles finance table reads.
+
+- Database initialization can be run explicitly through `scripts/init_db.py`.
 
 ## Stabilized routes
 
@@ -48,3 +64,5 @@ Finance Data
 - Financial summary combines cost, breakdown, budget comparison, and overrun risk into one response.
 - Agent responses include both human-readable answers and raw structured data.
 - Application behavior is driven from a single settings object loaded from `.env`.
+- SQLite persistence is seeded from the existing mock finance dataset.
+- Service functions now read finance cost data through the repository layer.

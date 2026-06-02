@@ -12,7 +12,8 @@ def test_health_check():
     assert response.status_code == 200
     assert response.json() == {
         "status": "running",
-        "service": "Cost Finance AI Agent"
+        "service": "Cost Finance AI Agent",
+        "environment": "development"
     }
 
 def test_response_includes_request_id_header():

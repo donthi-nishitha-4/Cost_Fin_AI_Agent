@@ -47,12 +47,13 @@
 - [x] Request correlation IDs
 - [x] Global error handling
 - [x] Config management foundation
+- [x] SQLite database foundation
+- [x] SQLAlchemy engine and session setup
+- [x] Database seeding from mock finance data
+- [x] Database config in `.env`
+- [x] Explicit database initialization script
 
 ## Pending
-- [ ] Multi-tool orchestration expansion
-- [ ] Observability & tracing
-- [ ] Persistent settings documentation
-- [ ] Error middleware
 - [ ] PostgreSQL integration
 - [ ] Persistent finance storage
 - [ ] Async architecture
