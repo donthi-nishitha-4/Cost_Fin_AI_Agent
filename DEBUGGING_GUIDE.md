@@ -169,11 +169,11 @@ Remove-Item -Recurse -Force .pytest_cache
 
 Make sure `.gitignore` includes:
 
- ```gitignore
- .pytest_cache/
- __pycache__/
- *.pyc
- ```
+```gitignore
+.pytest_cache/
+__pycache__/
+*.pyc
+```
 
 ## Phase 3 Database Check
 

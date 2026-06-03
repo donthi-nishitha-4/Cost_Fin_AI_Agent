@@ -2,12 +2,17 @@ from app.core.database import get_db
 from app.repositories.finance_repository import get_finance_subsystem_by_id
 
 
-def get_subsystem_cost(subsystem_id: int):
-    return get_subsystem_cost_from_db(subsystem_id)
+def get_subsystem_cost(subsystem_id: int, db=None):
+    return get_subsystem_cost_from_db(subsystem_id, db=db)
 
 
-def get_subsystem_cost_from_db(subsystem_id: int):
-    db = next(get_db())
+def get_subsystem_cost_from_db(subsystem_id: int, db=None):
+    close_db = False
+
+    if db is None:
+        db = next(get_db())
+        close_db = True
+
     try:
         row = get_finance_subsystem_by_id(db, subsystem_id)
 
@@ -23,11 +28,17 @@ def get_subsystem_cost_from_db(subsystem_id: int):
             "remaining_budget": remaining_budget
         }
     finally:
-        db.close()
+        if close_db:
+            db.close()
 
 
-def get_cost_breakdown_from_db(subsystem_id: int):
-    db = next(get_db())
+def get_cost_breakdown_from_db(subsystem_id: int, db=None):
+    close_db = False
+
+    if db is None:
+        db = next(get_db())
+        close_db = True
+
     try:
         row = get_finance_subsystem_by_id(db, subsystem_id)
 
@@ -41,11 +52,17 @@ def get_cost_breakdown_from_db(subsystem_id: int):
             "equipment_cost": row.equipment_cost
         }
     finally:
-        db.close()
+        if close_db:
+            db.close()
 
 
-def get_budget_comparison_from_db(subsystem_id: int):
-    db = next(get_db())
+def get_budget_comparison_from_db(subsystem_id: int, db=None):
+    close_db = False
+
+    if db is None:
+        db = next(get_db())
+        close_db = True
+
     try:
         row = get_finance_subsystem_by_id(db, subsystem_id)
 
@@ -67,11 +84,17 @@ def get_budget_comparison_from_db(subsystem_id: int):
             "budget_status": budget_status
         }
     finally:
-        db.close()
+        if close_db:
+            db.close()
 
 
-def get_overrun_risk_from_db(subsystem_id: int):
-    db = next(get_db())
+def get_overrun_risk_from_db(subsystem_id: int, db=None):
+    close_db = False
+
+    if db is None:
+        db = next(get_db())
+        close_db = True
+
     try:
         row = get_finance_subsystem_by_id(db, subsystem_id)
 
@@ -95,34 +118,45 @@ def get_overrun_risk_from_db(subsystem_id: int):
             "risk_level": risk_level
         }
     finally:
-        db.close()
+        if close_db:
+            db.close()
 
 
-def get_cost_breakdown(subsystem_id: int):
-    return get_cost_breakdown_from_db(subsystem_id)
+def get_cost_breakdown(subsystem_id: int, db=None):
+    return get_cost_breakdown_from_db(subsystem_id, db=db)
 
 
-def get_budget_comparison(subsystem_id: int):
-    return get_budget_comparison_from_db(subsystem_id)
+def get_budget_comparison(subsystem_id: int, db=None):
+    return get_budget_comparison_from_db(subsystem_id, db=db)
 
 
-def get_overrun_risk(subsystem_id: int):
-    return get_overrun_risk_from_db(subsystem_id)
+def get_overrun_risk(subsystem_id: int, db=None):
+    return get_overrun_risk_from_db(subsystem_id, db=db)
 
 
-def get_financial_summary(subsystem_id: int):
-    cost = get_subsystem_cost(subsystem_id)
-    breakdown = get_cost_breakdown(subsystem_id)
-    budget_comparison = get_budget_comparison(subsystem_id)
-    overrun_risk = get_overrun_risk(subsystem_id)
+def get_financial_summary(subsystem_id: int, db=None):
+    close_db = False
 
-    if not cost:
-        return None
+    if db is None:
+        db = next(get_db())
+        close_db = True
 
-    return {
-        "subsystem": cost["subsystem"],
-        "cost": cost,
-        "breakdown": breakdown,
-        "budget_comparison": budget_comparison,
-        "overrun_risk": overrun_risk
-    }
+    try:
+        cost = get_subsystem_cost(subsystem_id, db=db)
+        breakdown = get_cost_breakdown(subsystem_id, db=db)
+        budget_comparison = get_budget_comparison(subsystem_id, db=db)
+        overrun_risk = get_overrun_risk(subsystem_id, db=db)
+
+        if not cost:
+            return None
+
+        return {
+            "subsystem": cost["subsystem"],
+            "cost": cost,
+            "breakdown": breakdown,
+            "budget_comparison": budget_comparison,
+            "overrun_risk": overrun_risk
+        }
+    finally:
+        if close_db:
+            db.close()

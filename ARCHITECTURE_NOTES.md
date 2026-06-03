@@ -26,11 +26,11 @@ Finance Data
 
 ## Config layer
 
-`.env` -> `app/core/settings.py` -> app title, log level, and LLM model, database URL
+`.env` -> `app/core/settings.py` -> app title, log level, LLM model, database URL
 
 ## Persistence layer
 
-`scripts/init_db.py` -> SQLAlchemy initializer.
+`scripts/init_db.py` -> SQLAlchemy initializer
 `app/core/database.py` -> SQLAlchemy engine/session
 `app/core/seed_database.py` -> seed SQLite from mock finance data
 `app/repositories/finance_repository.py` -> database reads
@@ -66,3 +66,4 @@ Finance Data
 - Application behavior is driven from a single settings object loaded from `.env`.
 - SQLite persistence is seeded from the existing mock finance dataset.
 - Service functions now read finance cost data through the repository layer.
+- Database initialization can be run explicitly through `scripts/init_db.py`.
