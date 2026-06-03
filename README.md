@@ -85,11 +85,12 @@ Environment values are loaded from `.env`:
 
 ## Persistence
 
-SQLite is used as the first Phase 3 persistence layer.
+SQLite is the first Phase 3 persistence layer.
 
 Initialize the database manually with:
 
 ```powershell
 .\.venv\Scripts\python.exe -m scripts.init_db
+```
 
-SQLite is the first Phase 3 persistence layer.
+This creates the schema and seeds the database from the mock finance dataset.
