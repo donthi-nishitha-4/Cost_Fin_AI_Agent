@@ -1,71 +1,122 @@
+# Changelog
+
+## v0.7 - Phase 3 Preparation and Documentation Cleanup
+
+### Added
+
+* PostgreSQL migration planning documentation
+* Project roadmap and next-stage guidance
+* Phase 3 architecture notes
+
+### Updated
+
+* README documentation
+* PROJECT_PROGRESS.md
+* ARCHITECTURE_NOTES.md
+* DEBUGGING_GUIDE.md
+* CHANGELOG.md
+
+### Status
+
+Project documentation aligned with Phase 3 PostgreSQL migration objectives.
+
+---
+
 ## v0.6 - SQLite Persistence Foundation
 
 ### Added
-- SQLite database config
-- SQLAlchemy engine and session setup
-- Explicit database initialization script
-- Mock finance data seeding into SQLite
-- Repository layer for finance reads
-- DB-backed finance service helpers
+
+* SQLite database configuration
+* SQLAlchemy engine and session setup
+* Explicit database initialization script
+* Mock finance data seeding into SQLite
+* Repository layer for finance reads
+* Database-backed finance service helpers
+* PostgreSQL preparation scaffolding
 
 ### Status
-Phase 3 persistence foundation is now in place.
+
+Persistence foundation completed. Repository abstraction enables future PostgreSQL migration.
+
+---
 
 ## v0.5 - Config Foundation and Middleware Cleanup
 
 ### Added
-- Centralized settings module backed by `.env`
-- Environment-driven project name, log level, and LLM model
-- Request correlation IDs
-- Global error handler
+
+* Centralized settings module backed by `.env`
+* Environment-driven project name, log level, and LLM model
+* Request correlation IDs
+* Global error handling
 
 ### Updated
-- README, architecture notes, API contracts, and debugging guide
+
+* README documentation
+* Architecture notes
+* API contracts
+* Debugging guide
 
 ### Status
-Phase 2 cleanup complete, ready to begin Phase 3 configuration and persistence work.
+
+Configuration and middleware foundations stabilized.
+
+---
 
 ## v0.4 - Agent Response Formatting
 
 ### Added
-- Human-readable answer field in agent responses
-- Response formatter module
-- Formatter tests
+
+* Human-readable answer field in agent responses
+* Response formatter module
+* Response formatter test coverage
 
 ### Status
-Agent responses now include both readable summaries and raw structured data.
+
+Agent responses now provide both readable summaries and structured data.
+
+---
 
 ## v0.3 - Financial Summary Tool
 
 ### Added
-- Financial summary service
-- Financial summary tool
-- Financial summary API
-- Agent routing for financial summary
-- Tests for service, tool, validator, and API layers
+
+* Financial summary service
+* Financial summary tool
+* Financial summary API
+* Agent routing for financial summary
+* Service, tool, validator, and API tests
 
 ### Status
-Full financial summary works end-to-end.
+
+Financial summary workflow operational end-to-end.
+
+---
 
 ## v0.2 - Phase 2 Finance Tools
 
 ### Added
-- Budget comparison service, tool, and API
-- Overrun risk service, tool, and API
-- Planner routing support
-- Validator support
-- Tests for new tools
+
+* Budget comparison service, tool, and API
+* Overrun risk service, tool, and API
+* Planner routing support
+* Validator support
+* Test coverage for new finance tools
 
 ### Status
-Multi-tool finance capabilities are operational.
+
+Multi-tool finance capabilities operational.
+
+---
 
 ## v0.1 - Initial Working Agent
 
 ### Added
-- Finance agent using LangChain + Ollama
-- Subsystem cost tool
-- API endpoints
-- Basic test suite
+
+* Finance agent using LangChain and Ollama
+* Subsystem cost tool
+* Finance API endpoints
+* Initial test suite
 
 ### Status
-Stable working baseline for production refactoring
+
+Stable baseline established for future expansion.

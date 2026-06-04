@@ -1,7 +1,16 @@
 # Architecture Notes
 
-## Current validated architecture
+## Overview
 
+The Cost Finance Agent follows a layered architecture that separates API handling, agent orchestration, business logic, and persistence concerns.
+
+This separation allows database implementations to change without requiring modifications to service logic, agent tooling, or API contracts.
+
+---
+
+## Current Validated Architecture
+
+```text
 User Query
     |
 API Layer
@@ -22,48 +31,134 @@ Response Formatter
     |
 Service Layer
     |
-Finance Data
+Repository Layer
+    |
+Database
+```
 
-## Config layer
+---
 
-`.env` -> `app/core/settings.py` -> app title, log level, LLM model, database URL
+## Configuration Layer
 
-## Persistence layer
+```text
+.env
+  ↓
+app/core/settings.py
+  ↓
+Application Configuration
+```
 
-`scripts/init_db.py` -> SQLAlchemy initializer
-`app/core/database.py` -> SQLAlchemy engine/session
-`app/core/seed_database.py` -> seed SQLite from mock finance data
-`app/repositories/finance_repository.py` -> database reads
+Configuration currently manages:
 
-## Persistence tools
+* Application metadata
+* Logging configuration
+* LLM model settings
+* Database configuration
+* Environment-specific values
 
-- `scripts/init_db.py` initializes the SQLite database.
-- `app/core/database.py` creates the SQLAlchemy engine and session factory.
-- `app/core/seed_database.py` seeds the database from mock finance data.
-- `app/repositories/finance_repository.py` handles finance table reads.
+---
 
-- Database initialization can be run explicitly through `scripts/init_db.py`.
+## Persistence Layer
 
-## Stabilized routes
+### Current Components
 
-- GET /
-- GET /agent?query=...
-- GET /api/v1/costs/{subsystem_id}
-- GET /api/v1/breakdown/{subsystem_id}
-- GET /api/v1/budget-comparison/{subsystem_id}
-- GET /api/v1/overrun-risk/{subsystem_id}
-- GET /api/v1/financial-summary/{subsystem_id}
+```text
+scripts/init_db.py
+    └─ Database initialization
 
-## Current safeguards
+app/core/database.py
+    └─ SQLite engine and session management
 
-- Planner output is validated before tool execution.
-- Tool execution goes through registered tool wrappers.
-- Finance tool calls emit structured log messages.
-- Budget comparison is available through service, tool, API, and agent layers.
-- Overrun risk is available through service, tool, API, and agent layers.
-- Financial summary combines cost, breakdown, budget comparison, and overrun risk into one response.
-- Agent responses include both human-readable answers and raw structured data.
-- Application behavior is driven from a single settings object loaded from `.env`.
-- SQLite persistence is seeded from the existing mock finance dataset.
-- Service functions now read finance cost data through the repository layer.
-- Database initialization can be run explicitly through `scripts/init_db.py`.
+app/core/postgres_database.py
+    └─ PostgreSQL engine preparation
+
+app/core/seed_database.py
+    └─ Seed database from finance dataset
+
+app/repositories/finance_repository.py
+    └─ Repository abstraction
+```
+
+### Design Goal
+
+Business services should never communicate directly with database engines or SQLAlchemy sessions.
+
+All persistence access should flow through the repository layer.
+
+```text
+Service Layer
+      ↓
+Repository Layer
+      ↓
+Database
+```
+
+This enables migration between SQLite and PostgreSQL with minimal service-layer changes.
+
+---
+
+## Phase 3 PostgreSQL Migration Strategy
+
+### Already Completed
+
+* PostgreSQL configuration scaffolding
+* PostgreSQL database module
+* Environment-driven database configuration
+* Repository abstraction layer
+* SQLite persistence validation
+
+### Planned Migration Flow
+
+1. Configure PostgreSQL runtime
+2. Validate connection and session creation
+3. Migrate one pilot endpoint
+4. Verify API compatibility
+5. Expand migration to remaining endpoints
+6. Run full regression testing
+7. Retire SQLite as primary runtime
+
+---
+
+## Stabilized Routes
+
+* GET /
+* GET /agent?query=...
+* GET /api/v1/costs/{subsystem_id}
+* GET /api/v1/breakdown/{subsystem_id}
+* GET /api/v1/budget-comparison/{subsystem_id}
+* GET /api/v1/overrun-risk/{subsystem_id}
+* GET /api/v1/financial-summary/{subsystem_id}
+
+---
+
+## Current Safeguards
+
+### Agent Safety
+
+* Planner output is validated before execution.
+* Tool execution occurs only through registered tool wrappers.
+* Invalid plans are rejected before execution.
+
+### Application Reliability
+
+* Structured logging for finance operations.
+* Centralized configuration management.
+* Global exception handling.
+* Request correlation IDs.
+
+### Data Access Protection
+
+* Service functions access persistence through repositories.
+* Database initialization is explicit and repeatable.
+* Seed data can be regenerated consistently.
+* Database implementations remain isolated from business logic.
+
+---
+
+## Future Architecture Enhancements
+
+* PostgreSQL production deployment
+* Async database access
+* LangGraph workflow orchestration
+* Monitoring and observability layer
+* Multi-agent collaboration patterns
