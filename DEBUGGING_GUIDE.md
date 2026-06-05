@@ -86,13 +86,13 @@ and:
 Expected:
 
 ```text
-47 passed
+49 passed
 ```
 
 ## Config Notes
 
-- `.env` now drives `PROJECT_NAME`, `ENVIRONMENT`, `LOG_LEVEL`, and `LLM_MODEL`
-- PostgreSQL settings are staged in `.env` but not yet active at runtime
+- `.env` drives `PROJECT_NAME`, `ENVIRONMENT`, `LOG_LEVEL`, `LLM_MODEL`, and `DATABASE_URL`
+- PostgreSQL is the primary active database
 - `app/core/settings.py` is the single source of truth for app configuration
 - If the app title or model changes, update `.env` first
 
@@ -178,19 +178,9 @@ __pycache__/
 
 ## Phase 3 Database Check
 
-Run the SQLite initializer:
+The database schema and seeding occur automatically when the application starts.
 
-```powershell
-.\.venv\Scripts\python.exe -m scripts.init_db
-```
-
-Expected:
-
-```text
-Database initialized and seeded.
-```
-
-Then verify the app still passes tests:
+Verify the app still passes tests:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest
@@ -199,5 +189,5 @@ Then verify the app still passes tests:
 Expected:
 
 ```text
-47 passed
+49 passed
 ```

@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.7 - PostgreSQL Migration & Validation
+
+### Added
+- Full PostgreSQL persistence support
+- Config-driven database switching
+- Automated schema creation and seeding for PostgreSQL
+- PostgreSQL connection diagnostic tools
+- Regression testing against PostgreSQL (49 passed)
+
+### Updated
+- README and Architecture notes to reflect PostgreSQL as primary persistence
+- Project progress and Roadmap status
+
+### Status
+Phase 3 complete. The application is now fully migrated to PostgreSQL.
+
 ## v0.6 - SQLite Persistence Foundation
 
 ### Added

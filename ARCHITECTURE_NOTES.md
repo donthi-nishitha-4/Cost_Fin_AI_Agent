@@ -30,21 +30,17 @@ Finance Data
 
 ## Persistence layer
 
-`scripts/init_db.py` -> SQLAlchemy initializer
-`app/core/database.py` -> SQLite engine/session
-`app/core/dependencies.py` -> SQLite and PostgreSQL session helpers
-`app/core/postgres_database.py` -> PostgreSQL engine/session staging
-`app/core/seed_database.py` -> seed SQLite from mock finance data
+`app/core/database.py` -> SQLAlchemy engine/session (configured via DATABASE_URL)
+`app/core/dependencies.py` -> Database session helpers
 `app/repositories/finance_repository.py` -> database reads
 
 ## Persistence tools
 
-- `scripts/init_db.py` initializes the SQLite database.
-- `app/core/database.py` creates the SQLAlchemy engine and session factory.
-- `app/core/seed_database.py` seeds the database from mock finance data.
+- `app/core/database.py` creates the SQLAlchemy engine and session factory based on the active `DATABASE_URL`.
+- PostgreSQL is the primary database, but the system remains provider-agnostic.
+- `app/core/seed_database.py` seeds the database from the mock finance data on startup.
 - `app/repositories/finance_repository.py` handles finance table reads.
 - `app/core/dependencies.py` exposes DB session helpers for route injection.
-- `app/core/postgres_database.py` stages PostgreSQL support for the next migration step.
 
 ## Stabilized routes
 
@@ -66,7 +62,6 @@ Finance Data
 - Financial summary combines cost, breakdown, budget comparison, and overrun risk into one response.
 - Agent responses include both human-readable answers and raw structured data.
 - Application behavior is driven from a single settings object loaded from `.env`.
-- SQLite persistence is seeded from the existing mock finance dataset.
+- Database is seeded automatically from the mock finance dataset.
 - Service functions now read finance cost data through the repository layer.
-- Database initialization can be run explicitly through `scripts/init_db.py`.
-- SQLite and PostgreSQL session helpers are both staged in `app/core/dependencies.py`.
+- Database session helpers are available for route injection.
