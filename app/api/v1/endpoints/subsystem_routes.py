@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.core.dependencies import get_db_session
+from app.core.dependencies import get_postgres_db_session
 from app.models.finance_models import (
     BudgetComparisonResponse,
     CostBreakdownResponse,
@@ -23,7 +23,7 @@ router = APIRouter()
 @router.get("/costs/{subsystem_id}", response_model=CostResponse)
 def fetch_subsystem_cost(
     subsystem_id: int,
-    db: Session = Depends(get_db_session),
+    db: Session = Depends(get_postgres_db_session),
 ):
     result = get_subsystem_cost(subsystem_id, db=db)
 
@@ -36,7 +36,7 @@ def fetch_subsystem_cost(
 @router.get("/breakdown/{subsystem_id}", response_model=CostBreakdownResponse)
 def fetch_cost_breakdown(
     subsystem_id: int,
-    db: Session = Depends(get_db_session),
+    db: Session = Depends(get_postgres_db_session),
 ):
     result = get_cost_breakdown(subsystem_id, db=db)
 
@@ -52,7 +52,7 @@ def fetch_cost_breakdown(
 )
 def fetch_budget_comparison(
     subsystem_id: int,
-    db: Session = Depends(get_db_session),
+    db: Session = Depends(get_postgres_db_session),
 ):
     result = get_budget_comparison(subsystem_id, db=db)
 
@@ -65,7 +65,7 @@ def fetch_budget_comparison(
 @router.get("/overrun-risk/{subsystem_id}", response_model=OverrunRiskResponse)
 def fetch_overrun_risk(
     subsystem_id: int,
-    db: Session = Depends(get_db_session),
+    db: Session = Depends(get_postgres_db_session),
 ):
     result = get_overrun_risk(subsystem_id, db=db)
 
@@ -81,7 +81,7 @@ def fetch_overrun_risk(
 )
 def fetch_financial_summary(
     subsystem_id: int,
-    db: Session = Depends(get_db_session),
+    db: Session = Depends(get_postgres_db_session),
 ):
     result = get_financial_summary(subsystem_id, db=db)
 

@@ -6,7 +6,9 @@ def test_settings_expose_database_configuration():
     assert settings.environment == "development"
     assert settings.log_level == "DEBUG"
     assert settings.llm_model == "llama3"
-    assert settings.database_url == "sqlite:///./finance.db"
+    assert settings.database_url == (
+        "postgresql+psycopg://postgres:postgres@localhost:5432/cost_finance"
+    )
     assert settings.db_echo is False
     assert settings.postgres_url == (
         "postgresql+psycopg://postgres:postgres@localhost:5432/cost_finance"

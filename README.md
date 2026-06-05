@@ -5,7 +5,7 @@ and finance analytics in construction/project systems.
 
 ## Current Version
 
-Phase 3 configuration and SQLite persistence foundation.
+Phase 3 PostgreSQL pilot is complete.
 
 ## Features implemented
 
@@ -25,6 +25,9 @@ Phase 3 configuration and SQLite persistence foundation.
 - Global error handling
 - Human-readable agent response formatting
 - Automated pytest coverage
+- Completed SQLite foundation
+- PostgreSQL session path is wired for the finance endpoints
+- Manual API verification passed
 
 ## Finance capabilities
 
@@ -60,6 +63,32 @@ Phase 3 configuration and SQLite persistence foundation.
 
 ```text
 47 passed
+```
+
+## Persistence
+
+SQLite is the first Phase 3 persistence layer.
+
+Initialize the database manually with:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.init_db
+```
+
+This creates the schema and seeds the database from the mock finance dataset.
+
+## PostgreSQL Pilot
+
+The finance API routes are currently wired to the PostgreSQL session path for the pilot migration.
+
+Use the following manual checks:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8000/api/v1/costs/1
+Invoke-RestMethod http://127.0.0.1:8000/api/v1/breakdown/1
+Invoke-RestMethod http://127.0.0.1:8000/api/v1/budget-comparison/1
+Invoke-RestMethod http://127.0.0.1:8000/api/v1/overrun-risk/1
+Invoke-RestMethod http://127.0.0.1:8000/api/v1/financial-summary/1
 ```
 
 ## Demo query

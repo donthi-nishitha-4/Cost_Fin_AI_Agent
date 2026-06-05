@@ -3,8 +3,13 @@ from app.data.mock_finance_data import SUBSYSTEM_DATA
 from app.models.finance_db_models import FinanceSubsystem
 
 
-def seed_finance_database():
-    db = SessionLocal()
+def seed_finance_database(db=None):
+    close_db = False
+
+    if db is None:
+        db = SessionLocal()
+        close_db = True
+
     try:
         existing_count = db.query(FinanceSubsystem).count()
         if existing_count > 0:
@@ -24,4 +29,5 @@ def seed_finance_database():
 
         db.commit()
     finally:
-        db.close()
+        if close_db:
+            db.close()

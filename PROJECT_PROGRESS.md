@@ -2,24 +2,19 @@
 
 ## Current Status
 
-**Phase 3 - Configuration and SQLite Persistence Foundation**
-
-The Cost Finance Agent is operational with:
-
-- FastAPI backend
-- Finance service layer
-- Repository abstraction
-- SQLite database support
-- AI agent orchestration
-- API test coverage
-- Structured error handling
-- Configuration management
-
-**Current Focus:** Phase 3 PostgreSQL migration preparation
+**Phase 3 - PostgreSQL wiring**
+The cost finance agent is operational with 
+- completed SQLite foundation
+- Correctly wired PostgreSQL session path with finance endpoints.
+- Test count 47 passed.
 
 ---
 
 ## Completed
+- SQLite foundation is complete
+- PostgreSQL session path is now wired for the finance endpoints
+- manual API verification passed
+- test count is 47 passed
 
 ### Foundation
 
