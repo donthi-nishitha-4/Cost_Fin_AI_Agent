@@ -2,19 +2,20 @@
 
 ## Current Status
 
-**Phase 3 - PostgreSQL wiring**
-The cost finance agent is operational with 
-- completed SQLite foundation
-- Correctly wired PostgreSQL session path with finance endpoints.
-- Test count 47 passed.
+**Phase 3 - PostgreSQL Migration Complete**
+The cost finance agent is fully functional with:
+- PostgreSQL persistence as the active database.
+- Automated schema creation and seeding.
+- Test suite verified against PostgreSQL.
 
 ---
 
 ## Completed
-- SQLite foundation is complete
-- PostgreSQL session path is now wired for the finance endpoints
-- manual API verification passed
-- test count is 47 passed
+- SQLite foundation
+- PostgreSQL connection verification
+- Pilot endpoint migration
+- Repository validation against PostgreSQL
+- PostgreSQL migration complete
 
 ### Foundation
 
@@ -74,6 +75,7 @@ The cost finance agent is operational with
 - [x] Response formatter tests
 - [x] Config and dependency tests
 
+...
 ### Database Foundation
 
 - [x] SQLite database foundation
@@ -83,28 +85,23 @@ The cost finance agent is operational with
 - [x] Explicit database initialization script
 - [x] SQLite/PostgreSQL dependency helpers
 - [x] PostgreSQL engine/session staging
-- [x] Repository abstraction for database migration
+- [x] Config-driven database switching
+- [x] Successful PostgreSQL migration
 
 ---
 
 ## In Progress
 
-### Phase 3 - PostgreSQL Migration
+### Phase 4 - Production Readiness
 
-- [ ] PostgreSQL runtime configuration
+- [ ] PostgreSQL runtime configuration validation
 - [ ] PostgreSQL connection verification
-- [ ] Pilot endpoint migration
-- [ ] Repository validation against PostgreSQL
-- [ ] PostgreSQL test execution
+- [ ] Full endpoint migration and regression testing
+- [ ] CI/CD integration for database switching
 
 ---
 
 ## Pending
-
-### Near-Term
-
-- [ ] Persistent finance storage
-- [ ] PostgreSQL rollout across all endpoints
 
 ### Future Enhancements
 
