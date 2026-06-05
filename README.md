@@ -16,6 +16,7 @@ Phase 3 configuration and SQLite persistence foundation.
 - SQLite database foundation
 - SQLAlchemy engine and session setup
 - Database seeding from mock finance data
+- Dependency helpers for SQLite and PostgreSQL sessions
 - LangChain/Ollama-based planner
 - Tool registry and executor
 - Planner decision validation

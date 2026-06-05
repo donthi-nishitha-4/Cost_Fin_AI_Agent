@@ -31,8 +31,8 @@ Finance Data
 ## Persistence layer
 
 `scripts/init_db.py` -> SQLAlchemy initializer
-`app/core/database.py` -> SQLAlchemy engine/session
-`app/core/dependencies.py` -> session dependency helpers
+`app/core/database.py` -> SQLite engine/session
+`app/core/dependencies.py` -> SQLite and PostgreSQL session helpers
 `app/core/postgres_database.py` -> PostgreSQL engine/session staging
 `app/core/seed_database.py` -> seed SQLite from mock finance data
 `app/repositories/finance_repository.py` -> database reads
@@ -43,8 +43,8 @@ Finance Data
 - `app/core/database.py` creates the SQLAlchemy engine and session factory.
 - `app/core/seed_database.py` seeds the database from mock finance data.
 - `app/repositories/finance_repository.py` handles finance table reads.
-
-- Database initialization can be run explicitly through `scripts/init_db.py`.
+- `app/core/dependencies.py` exposes DB session helpers for route injection.
+- `app/core/postgres_database.py` stages PostgreSQL support for the next migration step.
 
 ## Stabilized routes
 

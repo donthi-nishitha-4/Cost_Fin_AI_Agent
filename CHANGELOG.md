@@ -1,3 +1,5 @@
+# Changelog
+
 ## v0.6 - SQLite Persistence Foundation
 
 ### Added
