@@ -7,6 +7,9 @@
 - Mock finance data seeding into SQLite
 - Repository layer for finance reads
 - DB-backed finance service helpers
+- SQLite/PostgreSQL dependency helpers
+- Settings and dependency tests
+- PostgreSQL engine/session staging
 
 ### Status
 Phase 3 persistence foundation is now in place.

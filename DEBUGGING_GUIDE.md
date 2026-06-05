@@ -86,12 +86,13 @@ and:
 Expected:
 
 ```text
-40 passed
+47 passed
 ```
 
 ## Config Notes
 
 - `.env` now drives `PROJECT_NAME`, `ENVIRONMENT`, `LOG_LEVEL`, and `LLM_MODEL`
+- PostgreSQL settings are staged in `.env` but not yet active at runtime
 - `app/core/settings.py` is the single source of truth for app configuration
 - If the app title or model changes, update `.env` first
 
@@ -198,5 +199,5 @@ Then verify the app still passes tests:
 Expected:
 
 ```text
-44 passed
+47 passed
 ```

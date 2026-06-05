@@ -32,6 +32,8 @@ Finance Data
 
 `scripts/init_db.py` -> SQLAlchemy initializer
 `app/core/database.py` -> SQLAlchemy engine/session
+`app/core/dependencies.py` -> session dependency helpers
+`app/core/postgres_database.py` -> PostgreSQL engine/session staging
 `app/core/seed_database.py` -> seed SQLite from mock finance data
 `app/repositories/finance_repository.py` -> database reads
 
@@ -67,3 +69,4 @@ Finance Data
 - SQLite persistence is seeded from the existing mock finance dataset.
 - Service functions now read finance cost data through the repository layer.
 - Database initialization can be run explicitly through `scripts/init_db.py`.
+- SQLite and PostgreSQL session helpers are both staged in `app/core/dependencies.py`.

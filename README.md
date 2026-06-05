@@ -58,7 +58,7 @@ Phase 3 configuration and SQLite persistence foundation.
 ## Current status
 
 ```text
-44 passed
+47 passed
 ```
 
 ## Demo query
@@ -82,6 +82,12 @@ Environment values are loaded from `.env`:
 - `LLM_MODEL`
 - `DATABASE_URL`
 - `DB_ECHO`
+- `POSTGRES_HOST`
+- `POSTGRES_PORT`
+- `POSTGRES_DB`
+- `POSTGRES_USER`
+- `POSTGRES_PASSWORD`
+- `POSTGRES_DRIVER`
 
 ## Persistence
 
@@ -94,3 +100,8 @@ Initialize the database manually with:
 ```
 
 This creates the schema and seeds the database from the mock finance dataset.
+
+## DB Access
+
+- `app/core/dependencies.py` exposes SQLite and PostgreSQL session helpers.
+- `app/core/postgres_database.py` prepares the PostgreSQL engine and session factory.

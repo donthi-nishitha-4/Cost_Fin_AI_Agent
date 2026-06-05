@@ -52,10 +52,13 @@
 - [x] Database seeding from mock finance data
 - [x] Database config in `.env`
 - [x] Explicit database initialization script
+- [x] SQLite/PostgreSQL dependency helpers
+- [x] Config and dependency tests
 
 ## Pending
 - [ ] PostgreSQL integration
 - [ ] Persistent finance storage
 - [ ] Async architecture
+- [ ] PostgreSQL pilot endpoint switch
 - [ ] LangGraph workflows
 - [ ] Monitoring & metrics
