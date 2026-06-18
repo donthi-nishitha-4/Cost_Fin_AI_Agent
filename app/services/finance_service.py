@@ -1,3 +1,7 @@
+from sqlalchemy import text # type : ignore
+from langchain_ollama import OllamaLLM # type: ignore
+from app.core.settings import settings
+
 from app.core.database import get_db
 from app.repositories.finance_repository import get_finance_subsystem_by_id
 
@@ -159,6 +163,68 @@ def get_financial_summary(subsystem_id: int, db=None):
             "breakdown": breakdown,
             "budget_comparison": budget_comparison,
             "overrun_risk": overrun_risk
+        }
+    finally:
+        if close_db:
+            db.close()
+
+def execute_system_query(query: str, db=None):
+    # 1. Ask the LLM to generate the SQL FIRST, before touching the database!
+    llm = OllamaLLM(model=settings.llm_model)
+    prompt = f"""
+You are a PostgreSQL expert. Given the following natural language query, write the exact PostgreSQL SQL query to answer it.
+The database has a table named 'finance_subsystems' with the following schema:
+- id (Integer, primary_key)
+- subsystem_name (String, e.g. 'Fire Protection - Tower A')
+- planned_cost (Float)
+- actual_cost (Float)
+- labor_cost (Float)
+- material_cost (Float)
+- equipment_cost (Float)
+
+Return ONLY the raw SQL query string. Do not include markdown tags (like ```sql) or any explanations.
+
+Query: {query}
+"""
+    sql_query = llm.invoke(prompt).strip()
+    
+    # Strip markdown codeblocks just in case Ollama includes them
+    if sql_query.startswith("```sql"):
+        sql_query = sql_query[6:]
+    if sql_query.startswith("```"):
+        sql_query = sql_query[3:]
+    if sql_query.endswith("```"):
+        sql_query = sql_query[:-3]
+    sql_query = sql_query.strip()
+
+    # 2. NOW open the database connection just to run the query!
+    close_db = False
+    if db is None:
+        from app.core.database import get_db
+        db = next(get_db())
+        close_db = True
+
+    try:
+        # Execute the raw query safely
+        result = db.execute(text(sql_query)).fetchall()
+        
+        # Convert SQLAlchemy rows into standard dictionaries
+        if result:
+            keys = result[0]._mapping.keys()
+            rows = [dict(zip(keys, row)) for row in result]
+        else:
+            rows = []
+
+        return {
+            "query": query,
+            "sql": sql_query,
+            "result": rows
+        }
+    except Exception as e:
+        return {
+            "query": query,
+            "sql": sql_query,
+            "error": str(e)
         }
     finally:
         if close_db:

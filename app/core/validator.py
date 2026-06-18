@@ -4,6 +4,7 @@ VALID_TOOLS = {
     "budget_comparison",
     "overrun_risk",
     "financial_summary",
+    "system_analytics",
     "none"
 }
 

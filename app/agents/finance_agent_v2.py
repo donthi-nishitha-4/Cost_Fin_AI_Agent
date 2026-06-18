@@ -39,12 +39,13 @@ def executor_node(state: AgentState) -> AgentState:
     logger.info("[V2] Executor Node: Running tool")
     decision = state["decision"]
     tool = decision.get("tool")
+    query = state["query"]
     
     if tool == "none":
         return {"tool_result": {"status": "success", "tool": "none", "message": "Ask about subsystem cost or breakdown"}}
         
     subsystem_id = decision.get("subsystem_id")
-    result = execute_tool(tool, subsystem_id)
+    result = execute_tool(tool, subsystem_id,query)
     
     if result.get("status") == "error":
         return {"tool_result": {

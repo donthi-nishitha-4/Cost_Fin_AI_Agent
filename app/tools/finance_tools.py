@@ -186,6 +186,17 @@ def get_financial_summary_tool(subsystem_id: int):
         "data": result
     }
 
+from app.services.finance_service import execute_system_query
+
+def system_analytics_tool(query: str):
+    logger.info(f"Executing system analytics tool for query: {query}")
+    result = execute_system_query(query=query)
+    return {
+        "tool": "system_analytics",
+        "status": "success",
+        "data": result
+    }
+
 # ----------------------------
 # TOOL REGISTRY
 # ----------------------------
@@ -194,5 +205,6 @@ TOOLS = {
     "cost_breakdown": get_cost_breakdown_tool,
     "budget_comparison": get_budget_comparison_tool,
     "overrun_risk": get_overrun_risk_tool,
-    "financial_summary": get_financial_summary_tool
+    "financial_summary": get_financial_summary_tool,
+    "system_analytics": system_analytics_tool
 }

@@ -1,3 +1,5 @@
+from app.core.planner import llm
+
 def format_agent_response(agent_result: dict):
     if agent_result.get("status") != "success":
         return agent_result
@@ -29,8 +31,12 @@ def build_answer(tool: str, data: dict):
     if tool == "financial_summary":
         return format_financial_summary_answer(data)
 
+    if tool == "system_analytics":
+        return format_system_analytics_answer(data)
+
+
     if tool == "none":
-        return "Please ask a finance-related question about subsystem cost, budget, breakdown, risk, or summary."
+        return "This query is outside the scope of the Cost Finance AI Agent, which is designed to answer questions about construction subsystem cost breakdowns, budget comparisons, overrun risk, and financial summaries. Please ask a question related to subsystem cost or budget data."
 
     return "I could not format the finance response."
 
@@ -77,3 +83,17 @@ def format_financial_summary_answer(data: dict):
         f"{risk['utilization_percent']}% of planned cost, giving it "
         f"{risk['risk_level']} overrun risk."
     )
+
+def format_system_analytics_answer(data: dict):
+    if "error" in data:
+        return f"Sorry, the database query failed: {data['error']}"
+        
+    query = data.get("query")
+    result = data.get("result", [])
+    
+    if not result:
+        return f"No results found for your query: {query}"
+        
+    prompt = f"The user asked: '{query}'. The database returned this raw JSON data: {result}. Write a single concise, human-readable sentence answering the user's question using the data. Do not say 'The database returned' or show the raw JSON."
+    
+    return llm.invoke(prompt).strip()
