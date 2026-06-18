@@ -1,6 +1,7 @@
 import json
 import re
-from langchain_ollama import OllamaLLM
+
+from langchain_ollama import OllamaLLM  # type: ignore
 
 llm = OllamaLLM(model="llama3")
 
@@ -35,6 +36,9 @@ Use cost_breakdown for labor, material, equipment, or breakdown questions.
 Use budget_comparison for over budget, under budget, variance, planned vs actual questions.
 Use overrun_risk for risk, overrun risk, high risk, medium risk, or low risk questions.
 If not finance related, tool = none.
+
+Extract the subsystem ID number directly from the query (e.g. 'subsystem 17' -> 17).
+If no subsystem ID is specified or you are unsure, default to 1.
 
 Query: {query}
 """

@@ -8,7 +8,7 @@ def test_subsystem_cost_tool_returns_structured_success_response():
     assert result["status"] == "success"
     assert result["tool"] == "subsystem_cost"
     assert result["subsystem_id"] == 1
-    assert result["data"]["remaining_budget"] == 8000
+    assert result["data"]["remaining_budget"] == 0.0
 
 
 def test_subsystem_cost_tool_returns_error_for_unknown_subsystem():
@@ -25,7 +25,7 @@ def test_execute_tool_uses_registered_tool_wrapper():
 
     assert result["status"] == "success"
     assert result["tool"] == "cost_breakdown"
-    assert result["data"]["subsystem"] == "Foundation"
+    assert result["data"]["subsystem"] == "Fire Protection - Tower A"
 
 def test_budget_comparison_tool_returns_budget_status():
     result = get_budget_comparison_tool(1)
@@ -40,7 +40,7 @@ def test_execute_tool_runs_budget_comparison():
 
     assert result["status"] == "success"
     assert result["tool"] == "budget_comparison"
-    assert result["data"]["subsystem"] == "Foundation"
+    assert result["data"]["subsystem"] == "Fire Protection - Tower A"
     assert result["data"]["budget_status"] == "under_budget"
 
 def test_overrun_risk_tool_returns_structured_success_response():
@@ -49,8 +49,8 @@ def test_overrun_risk_tool_returns_structured_success_response():
     assert result["status"] == "success"
     assert result["tool"] == "overrun_risk"
     assert result["subsystem_id"] == 1
-    assert result["data"]["utilization_percent"] == 84.0
-    assert result["data"]["risk_level"] == "medium"
+    assert result["data"]["utilization_percent"] == 100.0
+    assert result["data"]["risk_level"] == "high"
 
 
 def test_execute_tool_runs_overrun_risk():
@@ -58,8 +58,8 @@ def test_execute_tool_runs_overrun_risk():
 
     assert result["status"] == "success"
     assert result["tool"] == "overrun_risk"
-    assert result["data"]["subsystem"] == "Foundation"
-    assert result["data"]["risk_level"] == "medium"
+    assert result["data"]["subsystem"] == "Fire Protection - Tower A"
+    assert result["data"]["risk_level"] == "high"
 
 def test_financial_summary_tool_returns_structured_success_response():
     result = get_financial_summary_tool(1)
@@ -67,9 +67,9 @@ def test_financial_summary_tool_returns_structured_success_response():
     assert result["status"] == "success"
     assert result["tool"] == "financial_summary"
     assert result["subsystem_id"] == 1
-    assert result["data"]["subsystem"] == "Foundation"
-    assert result["data"]["cost"]["remaining_budget"] == 8000
-    assert result["data"]["overrun_risk"]["risk_level"] == "medium"
+    assert result["data"]["subsystem"] == "Fire Protection - Tower A"
+    assert result["data"]["cost"]["remaining_budget"] == 0.0
+    assert result["data"]["overrun_risk"]["risk_level"] == "high"
 
 
 def test_execute_tool_runs_financial_summary():
@@ -77,5 +77,5 @@ def test_execute_tool_runs_financial_summary():
 
     assert result["status"] == "success"
     assert result["tool"] == "financial_summary"
-    assert result["data"]["subsystem"] == "Foundation"
+    assert result["data"]["subsystem"] == "Fire Protection - Tower A"
     assert result["data"]["budget_comparison"]["budget_status"] == "under_budget"

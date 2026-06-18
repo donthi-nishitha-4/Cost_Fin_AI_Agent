@@ -22,5 +22,29 @@ SUBSYSTEM_DATA = {
         "labor_cost": 30000,
         "material_cost": 32000,
         "equipment_cost": 10000
+    },
+    4: {
+        "subsystem": "Plumbing", # Massive Overrun
+        "planned_cost": 20000,
+        "actual_cost": 55000,
+        "labor_cost": 20000,
+        "material_cost": 30000,
+        "equipment_cost": 5000
+    },
+    5: {
+        "subsystem": "Landscaping", # Exact match
+        "planned_cost": 10000,
+        "actual_cost": 10000,
+        "labor_cost": 4000,
+        "material_cost": 5000,
+        "equipment_cost": 1000
+    },
+    6: {
+        "subsystem": "Security", # Unplanned cost (Zero budget)
+        "planned_cost": 0,
+        "actual_cost": 15000,
+        "labor_cost": 5000,
+        "material_cost": 8000,
+        "equipment_cost": 2000
     }
 }

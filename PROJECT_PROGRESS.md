@@ -2,11 +2,14 @@
 
 ## Current Status
 
-**Phase 3 - PostgreSQL Migration Complete**
-The cost finance agent is fully functional with:
-- PostgreSQL persistence as the active database.
-- Automated schema creation and seeding.
-- Test suite verified against PostgreSQL.
+**Phase 4 - Advanced AI & Production Readiness Complete**
+The cost finance agent is fully observable and testable:
+- LangGraph stateful agent workflow (V2)
+- LangSmith Tracing integration
+- Semantic Evaluation (LLM-as-a-Judge) with strict prompt constraints
+- 100-item realistic dataset with edge cases
+- Automated Markdown Evaluation Reporting (`generate_report.py`)
+- Full test suite synchronization with PostgreSQL database
 
 ---
 
@@ -92,11 +95,10 @@ The cost finance agent is fully functional with:
 
 ## In Progress
 
-### Phase 4 - Production Readiness
-
-- [ ] PostgreSQL runtime configuration validation
-- [ ] PostgreSQL connection verification
-- [ ] Full endpoint migration and regression testing
+### Phase 5 - Advanced System Analytics & Async Deployment
+- [ ] Develop Aggregate Analytics Tool (e.g. Text-to-SQL) for system-wide queries
+- [ ] Train planner to correctly route aggregate queries (no more defaulting to ID 1)
+- [ ] Async architecture
 - [ ] CI/CD integration for database switching
 
 ---
@@ -105,13 +107,12 @@ The cost finance agent is fully functional with:
 
 ### Future Enhancements
 
-- [ ] Async architecture
-- [ ] LangGraph workflows
+- [ ] Multi-agent finance orchestration
+- [ ] Advanced financial forecasting
 - [ ] Monitoring & metrics
-- [ ] Production deployment readiness
 
 ---
 
 ## Next Milestone
 
-Complete PostgreSQL migration while maintaining API compatibility and existing test coverage.
+Develop Phase 5 System-Wide Analytics (Text-to-SQL) to address aggregate query failures identified in Phase 4 evaluation.

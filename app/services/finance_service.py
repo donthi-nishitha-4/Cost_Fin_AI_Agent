@@ -101,7 +101,10 @@ def get_overrun_risk_from_db(subsystem_id: int, db=None):
         if not row:
             return None
 
-        utilization_percent = round((row.actual_cost / row.planned_cost) * 100, 2)
+        if row.planned_cost == 0:
+            utilization_percent = float('inf') if row.actual_cost > 0 else 0.0
+        else:
+            utilization_percent = round((row.actual_cost / row.planned_cost) * 100, 2)
 
         if utilization_percent >= 90:
             risk_level = "high"

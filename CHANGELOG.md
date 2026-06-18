@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.8 - Advanced AI & Observability (Phase 4)
+
+### Added
+- Agent V2 powered by LangGraph `StateGraph` for highly deterministic, node-based orchestration.
+- Full observability with LangSmith Tracing (`LANGCHAIN_TRACING_V2`).
+- Semantic Evaluation Suite (`scripts/evaluate_v2.py`) using LLM-as-a-Judge.
+- Expanded Mock Dataset to 100 items including edge cases (zero-budget, massive overruns).
+- Planner logic updated for dynamic subsystem ID extraction.
+- Strict LLM-as-a-judge semantic evaluation logic implemented to catch false positives.
+- `generate_report.py` script for automated LangSmith markdown reporting.
+- Test suite synchronized with the new PostgreSQL 100-item dataset.
+
+### Status
+Phase 4 complete. The agent is now fully observable, deterministic, and evaluated.
+
 ## v0.7 - PostgreSQL Migration & Validation
 
 ### Added

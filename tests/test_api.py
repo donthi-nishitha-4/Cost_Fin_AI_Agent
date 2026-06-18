@@ -27,26 +27,26 @@ def test_cost_endpoint_returns_subsystem_cost():
     response = client.get("/api/v1/costs/1")
 
     assert response.status_code == 200
-    assert response.json()["subsystem"] == "Foundation"
-    assert response.json()["remaining_budget"] == 8000
+    assert response.json()["subsystem"] == "Fire Protection - Tower A"
+    assert response.json()["remaining_budget"] == 0.0
 
 
 def test_breakdown_endpoint_returns_cost_breakdown():
     response = client.get("/api/v1/breakdown/2")
 
     assert response.status_code == 200
-    assert response.json()["subsystem"] == "Electrical"
-    assert response.json()["material_cost"] == 35000
+    assert response.json()["subsystem"] == "Structural Steel - Tower B"
+    assert response.json()["material_cost"] == 201265.22
 
 def test_budget_comparison_endpoint_returns_budget_status():
     response = client.get("/api/v1/budget-comparison/1")
 
     assert response.status_code == 200
     assert response.json() == {
-        "subsystem": "Foundation",
-        "planned_cost": 50000,
-        "actual_cost": 42000,
-        "variance": 8000,
+        "subsystem": "Fire Protection - Tower A",
+        "planned_cost": 150000.0,
+        "actual_cost": 150000.0,
+        "variance": 0.0,
         "budget_status": "under_budget"
     }
 
@@ -55,11 +55,11 @@ def test_overrun_risk_endpoint_returns_risk_level():
 
     assert response.status_code == 200
     assert response.json() == {
-        "subsystem": "Foundation",
-        "planned_cost": 50000,
-        "actual_cost": 42000,
-        "utilization_percent": 84.0,
-        "risk_level": "medium"
+        "subsystem": "Fire Protection - Tower A",
+        "planned_cost": 150000.0,
+        "actual_cost": 150000.0,
+        "utilization_percent": 100.0,
+        "risk_level": "high"
     }
 
 def test_financial_summary_endpoint_returns_all_sections():
@@ -69,11 +69,11 @@ def test_financial_summary_endpoint_returns_all_sections():
 
     data = response.json()
 
-    assert data["subsystem"] == "Foundation"
-    assert data["cost"]["remaining_budget"] == 8000
-    assert data["breakdown"]["labor_cost"] == 15000
+    assert data["subsystem"] == "Fire Protection - Tower A"
+    assert data["cost"]["remaining_budget"] == 0.0
+    assert data["breakdown"]["labor_cost"] == 45303.24
     assert data["budget_comparison"]["budget_status"] == "under_budget"
-    assert data["overrun_risk"]["risk_level"] == "medium"
+    assert data["overrun_risk"]["risk_level"] == "high"
 
 def test_cost_endpoint_returns_404_for_unknown_subsystem():
     response = client.get("/api/v1/costs/999")

@@ -50,13 +50,13 @@ curl http://127.0.0.1:8000/api/v1/financial-summary/1
 Expected response should include:
 
 ```json
-"subsystem": "Foundation"
+"subsystem": "Fire Protection - Tower A"
 ```
 
 and:
 
 ```json
-"risk_level": "medium"
+"risk_level": "high"
 ```
 
 3. Verify agent formatted response:
@@ -74,7 +74,7 @@ Expected agent response should include:
 and:
 
 ```json
-"answer": "Foundation has planned cost..."
+"answer": "Fire Protection - Tower A has planned cost..."
 ```
 
 4. Run tests:
@@ -127,21 +127,30 @@ Check that `app/main.py` includes:
 app.include_router(subsystem_router, prefix="/api/v1", tags=["finance"])
 ```
 
-### Tool not found
+### Tool not found or Hallucinated Subsystem IDs
 
 Probable causes:
-
 - Tool wrapper exists but is not registered
 - Tool name in planner does not match tool name in registry
 - Validator allows a tool that executor does not know
+- Planner hallucinates a default `subsystem_id: 1`
 
 Check:
+- **LangSmith Trace**: Open your LangSmith UI, find the trace, and inspect the raw text output of the LLM `planner_node` to see exactly what tool or ID it hallucinated.
+- `app/tools/registry.py`
+- `app/core/planner.py`
 
+### 77/100 Evaluation Failures (Aggregate Queries)
+
+During Phase 4 evaluation (`evaluate_v2.py`), the LLM-as-a-Judge correctly caught 23 failures.
+If you see failures like:
 ```text
-app/tools/registry.py
-app/core/validator.py
-app/core/planner.py
+Query: Find severe overruns.
+Expected: There are 10 subsystems with severe overruns...
+Actual: Fire Protection - Tower A has used 100.0% of planned cost...
 ```
+**Cause**: The agent architecture is explicitly limited to single-subsystem queries. When asked an aggregate question, the `planner_node` defaults to `subsystem_id: 1` instead of extracting all subsystems or doing a SQL query.
+**Fix**: This is expected behavior until the Phase 5 System-Wide Analytics tool (Text-to-SQL) is built. Do not debug this further unless working on Phase 5.
 
 ### Missing formatted answer
 

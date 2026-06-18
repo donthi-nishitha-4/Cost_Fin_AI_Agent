@@ -6,11 +6,11 @@ User Query
     |
 API Layer
     |
-Orchestrator
-    |
-Planner
-    |
-Validator
+Agent V2 (LangGraph StateGraph)
+    |-- Planner Node
+    |-- Validator Node
+    |-- Executor Node
+    |-- Formatter Node
     |
 Tool Registry
     |
@@ -23,6 +23,22 @@ Response Formatter
 Service Layer
     |
 Finance Data
+
+## V2 - Stateful Graph Orchestration (LangGraph)
+Migrated from LangChain's linear `AgentExecutor` to LangGraph's `StateGraph`. This allows explicit control flow:
+1. **Planner Node**: Determines intent and extracts the exact `subsystem_id` directly from the user query.
+2. **Validator Node**: Catches LLM hallucinations (e.g. invalid tool names) before executing tools, safely rejecting or re-prompting.
+3. **Executor Node**: Runs the requested backend tool safely.
+4. **Formatter Node**: Converts JSON responses into human-readable text.
+
+## Evaluation Architecture (LLM-as-a-Judge)
+Evaluation runs via LangSmith test datasets using a custom `semantic_match` evaluator. 
+Because small LLMs are highly prone to "false positives" in evaluation, the Judge prompt enforces extreme strictness: it mathematically verifies the subsystem name and all financial costs/variances match identically before issuing a `CORRECT` verdict.
+
+## Observability (LangSmith)
+
+- LangSmith Tracing is natively integrated via `LANGCHAIN_TRACING_V2` environment variables.
+- The `evaluate_v2.py` script leverages LangSmith Datasets and an LLM-as-a-Judge semantic evaluator.
 
 ## Config layer
 

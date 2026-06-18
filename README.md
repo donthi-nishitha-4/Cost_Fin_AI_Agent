@@ -5,7 +5,12 @@ and finance analytics in construction/project systems.
 
 ## Current Version
 
-Phase 3 PostgreSQL pilot is complete.
+## Current Version
+
+Phase 4 (Advanced AI & Production Readiness) is complete. The project utilizes LangGraph, LangSmith, and a strict LLM-as-a-judge Semantic Evaluation suite.
+- **Accuracy**: 77.0% across 100 conversational queries.
+- **Failures**: Identified exclusively as aggregate analytics queries (e.g. "Which subsystem has the most cost?").
+- **Next Up**: Phase 5 (Text-to-SQL System-Wide Analytics Tool).
 
 ## Features implemented
 
@@ -24,7 +29,8 @@ Phase 3 PostgreSQL pilot is complete.
 - Request correlation IDs
 - Global error handling
 - Human-readable agent response formatting
-- Automated pytest coverage
+- Automated pytest coverage synchronized to the 100-item dataset
+- Automated evaluation markdown reporting (`generate_report.py`)
 - Completed SQLite foundation
 - PostgreSQL session path is wired for the finance endpoints
 - Manual API verification passed
@@ -62,7 +68,21 @@ Phase 3 PostgreSQL pilot is complete.
 ## Current status
 
 ```text
-47 passed
+49 passed
+```
+
+## Evaluate the Agent
+
+To run the full 100-item LangSmith semantic evaluation locally:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.evaluate_v2
+```
+
+To automatically generate the markdown report (saved to `docs/evaluation_reports/`):
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.generate_report
 ```
 
 ## Persistence
