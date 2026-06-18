@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from fastapi import Request
+from fastapi import Request #type:ignore
 
 from app.core.logger import logger
 

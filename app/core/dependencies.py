@@ -1,6 +1,6 @@
 from typing import Generator
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session #type:ignore
 
 from app.core.database import SessionLocal
 

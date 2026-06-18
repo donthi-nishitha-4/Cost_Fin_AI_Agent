@@ -1,5 +1,5 @@
-from fastapi import Request
-from fastapi.responses import JSONResponse
+from fastapi import Request #type:ignore
+from fastapi.responses import JSONResponse #type:ignore
 
 from app.core.logger import logger
 

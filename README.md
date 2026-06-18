@@ -5,8 +5,6 @@ and finance analytics in construction/project systems.
 
 ## Current Version
 
-## Current Version
-
 Phase 4 (Advanced AI & Production Readiness) is complete. The project utilizes LangGraph, LangSmith, and a strict LLM-as-a-judge Semantic Evaluation suite.
 - **Accuracy**: 77.0% across 100 conversational queries.
 - **Failures**: Identified exclusively as aggregate analytics queries (e.g. "Which subsystem has the most cost?").
@@ -31,9 +29,10 @@ Phase 4 (Advanced AI & Production Readiness) is complete. The project utilizes L
 - Human-readable agent response formatting
 - Automated pytest coverage synchronized to the 100-item dataset
 - Automated evaluation markdown reporting (`generate_report.py`)
-- Completed SQLite foundation
-- PostgreSQL session path is wired for the finance endpoints
-- Manual API verification passed
+- Full PostgreSQL persistence migration
+- Config-driven database connections
+- 100-item realistic dataset with automatic seeding
+
 
 ## Finance capabilities
 
@@ -85,30 +84,14 @@ To automatically generate the markdown report (saved to `docs/evaluation_reports
 .\.venv\Scripts\python.exe -m scripts.generate_report
 ```
 
-## Persistence
+## Persistence (PostgreSQL)
 
-SQLite is the first Phase 3 persistence layer.
+The application has fully migrated to a PostgreSQL persistence layer. The database schema is automatically generated and seeded with a 100-item evaluation dataset upon server startup if it is empty.
 
-Initialize the database manually with:
-
-```powershell
-.\.venv\Scripts\python.exe -m scripts.init_db
-```
-
-This creates the schema and seeds the database from the mock finance dataset.
-
-## PostgreSQL Pilot
-
-The finance API routes are currently wired to the PostgreSQL session path for the pilot migration.
-
-Use the following manual checks:
+To manually re-seed or reset the database with the 100-item dataset:
 
 ```powershell
-Invoke-RestMethod http://127.0.0.1:8000/api/v1/costs/1
-Invoke-RestMethod http://127.0.0.1:8000/api/v1/breakdown/1
-Invoke-RestMethod http://127.0.0.1:8000/api/v1/budget-comparison/1
-Invoke-RestMethod http://127.0.0.1:8000/api/v1/overrun-risk/1
-Invoke-RestMethod http://127.0.0.1:8000/api/v1/financial-summary/1
+.\.venv\Scripts\python.exe -m app.core.seed_database
 ```
 
 ## Demo query
@@ -138,20 +121,11 @@ Environment values are loaded from `.env`:
 - `POSTGRES_USER`
 - `POSTGRES_PASSWORD`
 - `POSTGRES_DRIVER`
-
-## Persistence
-
-SQLite is the first Phase 3 persistence layer.
-
-Initialize the database manually with:
-
-```powershell
-.\.venv\Scripts\python.exe -m scripts.init_db
-```
-
-This creates the schema and seeds the database from the mock finance dataset.
+- `LANGSMITH_TRACING_V2`
+- `LANGSMITH_API_KEY`
+- `LANGSMITH_PROJECT`
+- `LANGSMITH_ENDPOINT`
 
 ## DB Access
-
-- `app/core/dependencies.py` exposes SQLite and PostgreSQL session helpers.
-- `app/core/postgres_database.py` prepares the PostgreSQL engine and session factory.
+- `app/core/dependencies.py` exposes the active PostgreSQL session get_db.
+- `app/core/postgres_database.py` manages the SQLAlchemy engine and session factory.
