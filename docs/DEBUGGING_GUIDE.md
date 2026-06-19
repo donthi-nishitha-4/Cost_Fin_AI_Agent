@@ -13,40 +13,50 @@ Run automated tests:
 .\.venv\Scripts\python.exe -m pytest
 ```
 
-Evaluate Agent Accuracy (LangSmith):
+Run LLM Shootout Benchmark (Ollama vs Groq):
 ```powershell
-.\.venv\Scripts\python.exe -m scripts.evaluate_v2
+.\.venv\Scripts\python.exe scripts\compare_llms.py
+```
+
+Evaluate Agent Accuracy (V5 Project-Grade):
+```powershell
+.\.venv\Scripts\python.exe -m scripts.evaluate_v5
 ```
 
 ## Common Issues
 
+### Groq Model Decommissioned Error
+**Probable cause:**
+- Groq constantly updates their ultra-fast models. If you see `model_decommissioned`, the `llama-3.1-8b-instant` endpoint might be deprecated.
+**Checks:**
+- Check [Groq Docs](https://console.groq.com/docs/models) for the newest model ID and update `app/core/llm_factory.py`.
+
 ### Agent Endpoint Fails or Times Out
 **Probable causes:**
-- Ollama is not running.
+- Groq API key is missing from `.env` (if `LLM_PROVIDER=groq`).
+- Ollama is not running locally (if `LLM_PROVIDER=ollama`).
 - The PostgreSQL connection pool is exhausted.
 - Planner returned invalid JSON.
 
 **Checks:**
-- Run `ollama list` to verify your model is downloaded.
-- Ensure database connections are NOT being held open during `llm.invoke()` calls in `finance_service.py`. Connections should only be opened immediately before `db.execute()`.
+- Ensure `GROQ_API_KEY` is correctly pasted without quotes if running Groq.
+- Run `ollama list` to verify your local model is downloaded if running Ollama.
+- Ensure database connections are NOT being held open during `llm.invoke()` calls.
 
 ### Tool Not Found or Hallucinated Subsystem IDs
 **Probable causes:**
+- The LLM failed to route the logic correctly.
 - Tool wrapper exists but is not registered in `app/tools/registry.py`.
-- Planner is bypassing the *Chain of Thought* prompt.
 
 **Checks:**
+- Upgrade `LLM_PROVIDER` to `groq` to take advantage of significantly better logic processing.
 - Open your LangSmith UI, find the trace, and inspect the raw text output of the `planner_node` to see exactly how the LLM evaluated the boolean flags.
 
-### Fixing Sub-94% Evaluation Accuracy
-If your evaluation script (`evaluate_v2.py`) scores lower than 94%:
-1. Check the Markdown Report (`docs/evaluation_reports/eval_report_v2_100.md`) for failures.
-2. **Routing Failures**: If the Agent picked `subsystem_cost` instead of `cost_breakdown`, adjust the `CRITICAL RULE` keywords in `app/core/planner.py`.
-3. **SQL Logic Failures**: If `system_analytics` returns empty data, the LLM generated incorrect SQL. Add explicit definitions to the "Hints" section of the Text-to-SQL prompt in `app/services/finance_service.py`.
-
-### Missing Formatted Answer
-If the final output is raw JSON without a conversational sentence:
-- Check `app/core/response_formatter.py`. The LLM might have failed to format the SQL data.
+### Fixing Sub-63% Evaluation Accuracy
+If your evaluation script (`evaluate_v5.py`) drops below 63%:
+1. Check the Markdown Report (`docs/evaluation_reports/eval_report_v5_100.md`) for Intent-based failures.
+2. If `cost_lookup` fails heavily, ensure the Planner prompt explicitly clarifies the difference between specific cost queries and `cost_breakdown`.
+3. **CRITICAL Failures**: If V5 reports a CRITICAL error, check if the LLM output reversed a sign (e.g., `-27000` instead of `+27000`), or check if `response_formatter.py` is formatting a logic contradiction.
 
 ## Pytest Cache Warning
 If tests pass but show a warning about `.pytest_cache`, ignore it or clean it up:

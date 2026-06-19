@@ -4,10 +4,10 @@ Enterprise-style AI Agent for cost estimation, budget tracking, and finance anal
 
 ## Current Version
 
-**Phase 5 (System-Wide Analytics & Text-to-SQL)** is complete. The project utilizes LangGraph, LangSmith, and a strict LLM-as-a-judge Semantic Evaluation suite.
-- **Accuracy**: 94.0% across 100 complex conversational queries.
-- **New Capabilities**: A Text-to-SQL engine now safely translates natural language into aggregate PostgreSQL queries.
-- **Next Up**: Phase 6 (Groq LLM Migration for ultra-fast cloud inference).
+**Phase 6 (Cloud LLM Migration & Multi-Model Benchmarking)** is complete. 
+- **LLM Factory**: The project dynamically routes requests between a local Ollama model or the blazing-fast Cloud Groq LPU endpoint.
+- **Accuracy**: Benchmark of **63.0% True Deterministic Accuracy** across 100 complex conversational queries via our custom 5-Layer Project-Grade Evaluator.
+- **Speed**: Groq `llama-3.1-8b-instant` provides an 8.8x inference speedup over local processing.
 
 ## Features Implemented
 
@@ -19,17 +19,17 @@ Enterprise-style AI Agent for cost estimation, budget tracking, and finance anal
 
 ### AI Agent Layer (LangGraph)
 - **Stateful Orchestration**: Built on LangGraph `StateGraph` for deterministic node execution (Planner -> Validator -> Executor -> Formatter).
+- **Dynamic LLM Factory**: `app/core/llm_factory.py` seamlessly checks `LLM_PROVIDER` to inject the correct LLM anywhere in the stack.
 - **Chain of Thought Planner**: The LLM parses user intent logically to prevent routing hallucinations.
-- **Text-to-SQL Engine**: Dynamically executes safe, read-only aggregate queries.
-- **Tool Registry**: Modular finance tools to fetch live database records.
+- **Text-to-SQL Engine**: Dynamically executes safe, read-only aggregate queries against PostgreSQL.
 - **Generative Formatter**: Converts raw JSON database output into polished conversational sentences.
 
 ### Observability & Testing
 - Natively integrated with LangSmith Tracing (`LANGCHAIN_TRACING_V2`)
 - 100-item realistic evaluation dataset with extreme edge cases
-- Automated LLM-as-a-judge semantic evaluation suite (`scripts/evaluate_v2.py`)
-- Automated Markdown Evaluation Reporting (`scripts/generate_report.py`)
-- Pytest coverage synchronized to the 100-item dataset
+- **V5 Project-Grade Evaluator**: (`scripts/evaluate_v5.py`) A 5-Layer framework testing Intent Classification, Targeted Extraction, Math Precision, and Business Logic safely independently of semantic scoring.
+- **Automated Shootout**: (`scripts/compare_llms.py`) to directly benchmark latency and quality between Ollama and Groq.
+- Automated Markdown Evaluation Reporting (`scripts/generate_report_v5.py`)
 
 ## Finance Capabilities
 
@@ -38,7 +38,7 @@ Enterprise-style AI Agent for cost estimation, budget tracking, and finance anal
 - Budget Comparison (Planned vs Actual)
 - Overrun Risk Analysis
 - Full Financial Summary
-- **[NEW]** System-Wide Analytics (Cross-subsystem queries)
+- System-Wide Analytics (Cross-subsystem queries)
 
 ## Main API Endpoints
 
@@ -64,26 +64,21 @@ Run unit tests:
 .\.venv\Scripts\python.exe -m pytest
 ```
 
+Run the LLM Shootout (Ollama vs Groq):
+```powershell
+.\.venv\Scripts\python.exe scripts\compare_llms.py
+```
+
 Evaluate the Agent (LangSmith):
 ```powershell
-.\.venv\Scripts\python.exe -m scripts.evaluate_v2
-```
-
-Generate Markdown Evaluation Report:
-```powershell
-.\.venv\Scripts\python.exe -m scripts.generate_report
-```
-
-## Demo Query
-
-```powershell
-curl "http://127.0.0.1:8000/agent?query=Find%20severe%20overruns"
+.\.venv\Scripts\python.exe -m scripts.evaluate_v5
 ```
 
 ## Config Variables
 
 Environment values are loaded from `.env`:
 - `PROJECT_NAME`, `ENVIRONMENT`, `LOG_LEVEL`
-- `LLM_MODEL`
+- `LLM_PROVIDER` (e.g. `groq` or `ollama`)
+- `GROQ_API_KEY` (Required if using groq)
 - `DATABASE_URL`, `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
 - `LANGSMITH_TRACING_V2`, `LANGSMITH_API_KEY`, `LANGSMITH_PROJECT`

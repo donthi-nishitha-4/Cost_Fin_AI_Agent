@@ -1,9 +1,7 @@
 import json
 import re
 
-from langchain_ollama import OllamaLLM  # type: ignore
-
-llm = OllamaLLM(model="llama3")
+from app.core.llm_factory import get_llm
 
 
 def extract_json(text: str):
@@ -39,7 +37,17 @@ Extract the subsystem ID number directly from the query (e.g. 'subsystem 17' -> 
 If no subsystem ID is specified or you are using system_analytics, default to 1.
 Query: {query}
 """
-    response = llm.invoke(prompt).strip()
+    response = get_llm().invoke(prompt)
+    if hasattr(response, "content"):
+        # LangChain Chat models return an AIMessage object
+        response = response.content
+    elif isinstance(response, str):
+        # Ollama returns a raw string
+        pass
+    else:
+        response = str(response)
+        
+    response = response.strip()
     decision = extract_json(response)
     
     # BULLETPROOF FALLBACK: If Llama3 hallucinates and fails to output JSON, assume it's out of scope!

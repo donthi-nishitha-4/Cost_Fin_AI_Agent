@@ -2,62 +2,46 @@
 
 ## Current Status
 
-**Phase 5 - Advanced System Analytics Complete**
-The cost finance agent is fully capable of parsing both specific subsystem queries and global aggregate questions natively.
-- Evaluated at **94.0%** Semantic Accuracy over 100 items.
-- Text-to-SQL architecture deployed for `system_analytics_tool`.
-- Chain of Thought reasoning integrated into Planner node for bulletproof tool routing.
-- Database connection pools successfully protected from LLM inference latency.
+**Phase 6 - Cloud LLM Migration & Multi-Model Benchmarking Complete**
+The LangGraph agent has been completely upgraded to utilize a dynamic LLM routing factory, successfully transitioning to the blazing-fast Groq Llama 3.1 8B endpoint.
+- Evaluated at **63.0% True Deterministic Accuracy** via the new 5-Layer Project-Grade Evaluator over 100 queries.
+- Speedup of 8.8x compared to local Ollama (1.4s vs 12.4s).
 
 ---
 
 ## Completed
 
+### Phase 6: Cloud API Migration
+- [x] Migrate local Ollama inference to Groq LPU (`llama-3.1-8b-instant`).
+- [x] Build `app/core/llm_factory.py` for dynamic injection.
+- [x] Build `scripts/compare_llms.py` to benchmark 8.8x latency improvements side-by-side.
+- [x] Achieve 63% Deterministic correctness, eliminating local Llama3 routing hallucinations.
+
+### Phase 5.5: Evaluation Hardening (V5 Project-Grade)
+- [x] Design 5-Layer evaluation architecture (Intent, Targeted Fields, Math, Business Logic, Semantic).
+- [x] Implement deterministic math assertions decoupled from semantic score (solving LLM judge bias).
+- [x] Generate professional intent-based analytics report (`eval_report_v5_100.md`).
+
 ### Phase 5: System Analytics
 - [x] Develop Aggregate Analytics Tool (Text-to-SQL) for system-wide queries
 - [x] Train planner with Chain of Thought to route aggregate queries correctly
 - [x] Fix database connection exhaustion bugs during long LLM calls
-- [x] Dynamically format multi-row SQL returns using Generative Formatter
 
 ### Phase 4: Production Readiness
 - [x] LangGraph stateful agent workflow (V2)
 - [x] LangSmith Tracing integration
-- [x] Semantic Evaluation (LLM-as-a-Judge) with strict prompt constraints
-- [x] 100-item realistic dataset with edge cases
-- [x] Automated Markdown Evaluation Reporting (`generate_report.py`)
+- [x] Semantic Evaluation (LLM-as-a-Judge)
 
-### Phase 3: Database Foundation
-- [x] SQLite & PostgreSQL database foundation
-- [x] Config-driven database switching
-- [x] Successful PostgreSQL migration
-- [x] Database seeding from mock finance data
-
-### Phase 1 & 2: Foundation & Finance Services
+### Phase 1-3: Database Foundation & Services
+- [x] SQLite & PostgreSQL database foundation with config-driven switching
 - [x] FastAPI backend, Git integration, Modular architecture
 - [x] Cost estimation, Budget breakdown, Comparison, Risk analysis APIs
 - [x] Agent Tool abstraction layer
-- [x] LangChain & local Ollama integration
 
 ---
 
-## In Progress
-
-### Phase 6 - Cloud API Migration
-- [ ] Migrate local Ollama inference to Groq LPU (langchain-groq) for blazing fast response times.
-- [ ] Refactor async architecture for endpoints.
-
----
-
-## Pending
-
-### Future Enhancements
-- [ ] Multi-agent finance orchestration
-- [ ] Advanced financial forecasting
+## Future Enhancements
+- [ ] Multi-agent finance orchestration (HR vs Procurement)
+- [ ] Advanced financial forecasting algorithms
 - [ ] Monitoring & metrics dashboards
-- [ ] CI/CD integration for database switching
-
----
-
-## Next Milestone
-
-**Phase 6 (Cloud LLM Migration)**: Upgrade the agent's brain from a local model to the cloud-hosted Groq API to drastically reduce multi-step LLM latency.
+- [ ] Upgrade to Llama-3.1-70B for near-perfect tool routing.

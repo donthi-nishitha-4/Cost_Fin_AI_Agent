@@ -1,4 +1,4 @@
-from app.core.planner import llm
+from app.core.llm_factory import get_llm
 
 def format_agent_response(agent_result: dict):
     if agent_result.get("status") != "success":
@@ -6,6 +6,11 @@ def format_agent_response(agent_result: dict):
 
     tool = agent_result.get("tool")
     data = agent_result.get("data", {})
+    subsystem_id = agent_result.get("subsystem_id")
+
+    if subsystem_id is not None and "subsystem" in data:
+        if not str(data["subsystem"]).startswith("Subsystem"):
+            data["subsystem"] = f"Subsystem {subsystem_id} ({data['subsystem']})"
 
     answer = build_answer(tool, data)
 
@@ -96,4 +101,12 @@ def format_system_analytics_answer(data: dict):
         
     prompt = f"The user asked: '{query}'. The database returned this raw JSON data: {result}. Write a single concise, human-readable sentence answering the user's question using the data. Do not say 'The database returned' or show the raw JSON."
     
-    return llm.invoke(prompt).strip()
+    response = get_llm().invoke(prompt)
+    if hasattr(response, "content"):
+        response = response.content
+    elif isinstance(response, str):
+        pass
+    else:
+        response = str(response)
+        
+    return response.strip()
