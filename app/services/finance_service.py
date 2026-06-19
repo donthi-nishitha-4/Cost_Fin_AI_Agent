@@ -184,8 +184,13 @@ The database has a table named 'finance_subsystems' with the following schema:
 
 Return ONLY the raw SQL query string. Do not include markdown tags (like ```sql) or any explanations.
 
+Hints:
+- "severe overruns" means actual_cost > 1.3 * planned_cost
+- "underspend" means planned_cost - actual_cost
+
 Query: {query}
 """
+
     sql_query = llm.invoke(prompt).strip()
     
     # Strip markdown codeblocks just in case Ollama includes them
