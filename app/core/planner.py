@@ -26,6 +26,7 @@ Return ONLY JSON:
   "subsystem_id": 1
 }}
 CRITICAL RULE: If the query asks "Which subsystem", "Find subsystems", "Find severe overruns", or asks an aggregate question about ALL subsystems, you MUST use "system_analytics", even if it contains words like 'budget', 'equipment', or 'risk'.
+CRITICAL RULE: If the query asks SPECIFICALLY for "labor", "material", or "equipment" cost, you MUST use "cost_breakdown", NEVER use "subsystem_cost".
 Use system_analytics for system-wide aggregate questions.
 Use financial_summary for full summary, complete summary of a SPECIFIC subsystem.
 Use subsystem_cost for total cost, planned cost, actual cost, or remaining budget of a SPECIFIC subsystem.

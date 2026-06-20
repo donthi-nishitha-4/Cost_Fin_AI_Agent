@@ -8,7 +8,7 @@ def generate_report():
     print("Connecting to LangSmith...")
     client = Client()
     
-    dataset_name = "Cost_Finance_Evaluation"
+    dataset_name = "Cost_Finance_Golden_Strict"
     
     try:
         projects = list(client.list_projects(reference_dataset_name=dataset_name))
@@ -17,7 +17,7 @@ def generate_report():
             return
             
         # Find the latest V5 project
-        v5_projects = [p for p in projects if "V5_Project_Grade_Eval" in p.name]
+        v5_projects = [p for p in projects if "V5_Strict_Golden" in p.name]
         if not v5_projects:
             print("No V5 projects found.")
             return

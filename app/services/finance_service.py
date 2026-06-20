@@ -168,9 +168,10 @@ def get_financial_summary(subsystem_id: int, db=None):
         if close_db:
             db.close()
 
+from app.core.llm_factory import get_llm
+
 def execute_system_query(query: str, db=None):
     # 1. Ask the LLM to generate the SQL FIRST, before touching the database!
-    llm = OllamaLLM(model=settings.llm_model)
     prompt = f"""
 You are a PostgreSQL expert. Given the following natural language query, write the exact PostgreSQL SQL query to answer it.
 The database has a table named 'finance_subsystems' with the following schema:
@@ -191,9 +192,13 @@ Hints:
 Query: {query}
 """
 
-    sql_query = llm.invoke(prompt).strip()
+    response = get_llm().invoke(prompt)
+    if hasattr(response, "content"):
+        sql_query = response.content.strip()
+    else:
+        sql_query = str(response).strip()
     
-    # Strip markdown codeblocks just in case Ollama includes them
+    # Strip markdown codeblocks just in case Ollama/Groq includes them
     if sql_query.startswith("```sql"):
         sql_query = sql_query[6:]
     if sql_query.startswith("```"):

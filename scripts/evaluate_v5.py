@@ -16,7 +16,7 @@ load_dotenv()
 from app.agents.finance_agent_v2 import ask_finance_agent_v2
 
 client = Client()
-DATASET_NAME = "Cost_Finance_Evaluation"
+DATASET_NAME = "Cost_Finance_Golden_Strict"
 
 # Global LLM to avoid reallocation overhead
 JUDGE_LLM = get_llm()
@@ -203,7 +203,7 @@ def main():
         agent_target,
         data=DATASET_NAME,
         evaluators=[v5_hybrid_evaluator],
-        experiment_prefix="V5_Project_Grade_Eval",
+        experiment_prefix="V5_Strict_Golden",
     )
     print("\nEvaluation complete!")
 

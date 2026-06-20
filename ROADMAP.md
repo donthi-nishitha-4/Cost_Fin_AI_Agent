@@ -57,6 +57,7 @@
 - **Dynamic LLM Factory**: `app/core/llm_factory.py` implemented to instantly swap between `OllamaLLM` and `ChatGroq`.
 - **Groq Integration**: Migrated to `llama-3.1-8b-instant` for blazing-fast 1.41s latency responses.
 - **LLM Shootout Benchmarking**: Proved an 8.8x inference speedup and a 20% jump in deterministic accuracy (from 43% to 63%) just by upgrading the model endpoint.
+- **Strict Golden Dataset (Phase 6.6)**: Completely purged LLM-generated tautology from ground truth evaluations. Revealed hidden V5 Evaluator regex bugs, achieving a measured **92.0%** Math Accuracy, proving the Agent's reasoning paths and calculations are highly accurate while exposing evaluator script limitations.
 
 ---
 

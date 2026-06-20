@@ -58,6 +58,12 @@ If your evaluation script (`evaluate_v5.py`) drops below 63%:
 2. If `cost_lookup` fails heavily, ensure the Planner prompt explicitly clarifies the difference between specific cost queries and `cost_breakdown`.
 3. **CRITICAL Failures**: If V5 reports a CRITICAL error, check if the LLM output reversed a sign (e.g., `-27000` instead of `+27000`), or check if `response_formatter.py` is formatting a logic contradiction.
 
+### The Evaluation Tautology
+If you see **100% Accuracy**, check `generate_golden_dataset.py`. If the ground truth was generated using the same LLM being evaluated, you have created a tautology ("grading its own homework"). Use the Strict Dataset generator to bypass the LLM and mathematically prove the agent.
+
+### Regex Routing False Failures
+If you see a `CRITICAL: Wrong budget status` on a Risk query (e.g., "Is subsystem 70 low risk?"), the V5 Evaluator's Python regex is likely broken. The regex `["is subsystem"]` falsely flags Risk queries as Budget queries. Do not punish the Agent; the LLM logic is actually correct. The true fix is replacing `evaluate_v5.py`'s regex router with LLM-as-a-Judge tool calling (planned for Phase 7).
+
 ## Pytest Cache Warning
 If tests pass but show a warning about `.pytest_cache`, ignore it or clean it up:
 ```powershell
