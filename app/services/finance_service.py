@@ -1,5 +1,6 @@
+# pyrefly: ignore [missing-import]
 from sqlalchemy import text # type : ignore
-from langchain_ollama import OllamaLLM # type: ignore
+from app.core.llm_factory import get_llm
 from app.core.settings import settings
 
 from app.core.database import get_db
@@ -168,7 +169,6 @@ def get_financial_summary(subsystem_id: int, db=None):
         if close_db:
             db.close()
 
-from app.core.llm_factory import get_llm
 
 def execute_system_query(query: str, db=None):
     # 1. Ask the LLM to generate the SQL FIRST, before touching the database!

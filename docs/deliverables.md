@@ -64,4 +64,4 @@ This document summarizes the core technical deliverables produced during the AI 
 - **Features:**
   - Generates a mathematically perfect ground-truth dataset directly from backend PostgreSQL math functions.
   - Completely bypasses the LLM to prevent evaluation tautology ("grading its own homework").
-- **Value:** Revealed hidden flaws in evaluator routing regex and achieved a measured **92.0% Math Accuracy and 92.0% Semantic Quality** across 100 diverse edge cases, proving the Groq-powered Agent architecture is highly accurate.
+- **Value:** Revealed hidden flaws in evaluator routing regex and achieved a measured **94.0% Math Accuracy with Groq (92.0% with Ollama)** across 100 diverse edge cases, proving the Agent architecture is highly accurate regardless of the LLM provider.

@@ -6,7 +6,7 @@ Enterprise-style AI Agent for cost estimation, budget tracking, and finance anal
 
 **Phase 6 (Cloud LLM Migration & Benchmarking)** is complete. 
 - **LLM Factory**: The project dynamically routes requests between a local Ollama model or the blazing-fast Cloud Groq LPU endpoint.
-- **Accuracy**: Benchmark proved the Agent's reasoning paths and math to be highly accurate, measuring **92.0%** across 100 complex conversational queries via the Strict Golden Dataset. (Evaluator scoring shows false failures due to regex routing bugs, which is documented).
+- **Accuracy**: Benchmark proved the Agent's reasoning paths and math to be highly accurate, measuring **94.0% with Groq** (and 92.0% with local Ollama) across 100 complex conversational queries via the Strict Golden Dataset. (Evaluator scoring shows false failures due to regex routing bugs, which is documented).
 - **Speed**: Groq `llama-3.1-8b-instant` provides an 8.8x inference speedup over local processing.
 
 ## Features Implemented

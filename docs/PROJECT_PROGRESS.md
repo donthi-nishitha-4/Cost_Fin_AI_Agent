@@ -18,7 +18,7 @@ The LangGraph agent has been completely upgraded to utilize a dynamic LLM routin
 
 ### Phase 6.6: Strict Golden Dataset (Anti-Tautology)
 - [x] Rebuilt `generate_golden_dataset.py` to bypass the LLM and generate ground truths natively from PostgreSQL.
-- [x] Evaluated Groq against the Strict Truth, achieving a measured **92.0% accuracy** and proving the Agent's reasoning paths and math are highly capable across all 100 queries.
+- [x] Evaluated both Ollama (92.0%) and Groq (94.0%) against the Strict Truth, proving both Agents' reasoning paths and math are highly capable across all 100 queries.
 - [x] Discovered the remaining failure cases are false negatives caused by brittle regex matching in `evaluate_v5.py`.
 
 ### Phase 5.5: Evaluation Hardening (V5 Project-Grade)

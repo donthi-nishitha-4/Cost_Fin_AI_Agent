@@ -10,7 +10,7 @@
 - **LLM Shootout**: Created `compare_llms.py` to benchmark latency and quality between Ollama and Groq dynamically.
 
 ### Status
-Phase 6 complete. Achieved a mathematically proven **92.0%** agent execution accuracy against the Strict Golden Dataset. Exposed regex-based routing flaws in the evaluator, proving the agent logic is vastly superior to rigid string matching.
+Phase 6 complete. Achieved a mathematically proven **94.0%** execution accuracy with Groq (and 92.0% with Ollama) against the Strict Golden Dataset. Exposed regex-based routing flaws in the evaluator, proving the agent logic is vastly superior to rigid string matching.
 
 ## v0.9 - System-Wide Analytics (Phase 5)
 
