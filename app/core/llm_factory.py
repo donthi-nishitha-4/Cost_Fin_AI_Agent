@@ -26,11 +26,16 @@ def get_llm():
                 if not api_key:
                     raise ValueError("GROQ_API_KEY environment variable is not set. Please add it to your .env file.")
                     
+                model_name = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile").strip()
+                if model_name in ["llama3", "llama2", "ollama", "mistral"]:
+                    # Default to llama-3.3-70b-versatile if using Groq provider
+                    model_name = "llama-3.3-70b-versatile"
+                    
                 _groq_instance = ChatGroq(
                     temperature=0.0,
-                    model="llama-3.1-8b-instant",
+                    model=model_name,
                     api_key=api_key,
-                    max_retries=2
+                    max_retries=6
                 )
             except ImportError:
                 raise ImportError("langchain-groq is not installed. Run: pip install langchain-groq")

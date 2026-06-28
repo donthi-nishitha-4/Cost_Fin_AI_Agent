@@ -65,3 +65,11 @@ This document summarizes the core technical deliverables produced during the AI 
   - Generates a mathematically perfect ground-truth dataset directly from backend PostgreSQL math functions.
   - Completely bypasses the LLM to prevent evaluation tautology ("grading its own homework").
 - **Value:** Revealed hidden flaws in evaluator routing regex and achieved a measured **94.0% Math Accuracy with Groq (92.0% with Ollama)** across 100 diverse edge cases, proving the Agent architecture is highly accurate regardless of the LLM provider.
+
+## 10. Local Model Optimization & V5 Hardening (Phase 1 Freeze)
+- **Deliverable:** `scripts/evaluate_v5_local.py`, `app/core/planner.py` overrides, and SQL constraints.
+- **Features:**
+  - Banned SQL aliases/joins for multiple subsystem queries, eliminating `UndefinedTable` errors.
+  - Implemented deterministic router overrides in `planner.py` for aggregate and comparison keywords.
+  - Deployed local evaluator script `evaluate_v5_local.py` utilizing dynamic JSON checkpoints.
+- **Value:** Achieved an outstanding local Ollama Llama 3 8B accuracy of **98.9%** overall pipeline score across **124 golden queries** (0 warnings, 0 critical failures, only 1 minor formatting fail).

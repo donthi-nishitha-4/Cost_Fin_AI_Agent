@@ -18,9 +18,9 @@ Run LLM Shootout Benchmark (Ollama vs Groq):
 .\.venv\Scripts\python.exe scripts\compare_llms.py
 ```
 
-Evaluate Agent Accuracy (V5 Project-Grade):
+Evaluate Agent Accuracy Locally (Ollama Llama3):
 ```powershell
-.\.venv\Scripts\python.exe -m scripts.evaluate_v5
+.\.venv\Scripts\python.exe scripts/evaluate_v5_local.py
 ```
 
 ## Common Issues
@@ -63,6 +63,15 @@ If you see **100% Accuracy**, check `generate_golden_dataset.py`. If the ground 
 
 ### Regex Routing False Failures
 If you see a `CRITICAL: Wrong budget status` on a Risk query (e.g., "Is subsystem 70 low risk?"), the V5 Evaluator's Python regex is likely broken. The regex `["is subsystem"]` falsely flags Risk queries as Budget queries. Do not punish the Agent; the LLM logic is actually correct. The true fix is replacing `evaluate_v5.py`'s regex router with LLM-as-a-Judge tool calling (planned for Phase 7).
+
+### Database Connection Timeouts
+If you encounter `psycopg.errors.ConnectionTimeout` during batch evaluations, your PostgreSQL connection pool is exhausted.
+**Fix:** Ensure `app/core/database.py` has a properly configured pool limit (e.g., `pool_size=10, max_overflow=50, pool_timeout=30`).
+
+### 429 RateLimitError (API Throttling)
+If LangSmith evaluation throws `429 RateLimitError` from Groq or OpenRouter:
+1. **Concurrency Burst:** LangSmith `evaluate()` defaults to high concurrency. Ensure `max_concurrency=2` is passed to prevent instant bans.
+2. **Rolling Limits (TPD):** Groq strictly enforces Tokens Per Day (TPD). If you exhaust your 100,000 tokens, you must wait up to 24 hours (or switch `LLM_PROVIDER="ollama"` to run completely locally).
 
 ## Pytest Cache Warning
 If tests pass but show a warning about `.pytest_cache`, ignore it or clean it up:

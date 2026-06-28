@@ -134,7 +134,7 @@ def generate_report():
         for idx, comment in enumerate(fail_cases[:10]):
             md_content += f"- {comment}\\n"
 
-    report_path = os.path.join("docs", "evaluation_reports", "eval_report_v5_100.md")
+    report_path = os.path.join("docs", "evaluation_reports", "eval_report_v5_124_ollama_llama3.md")
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     
     with open(report_path, "w", encoding="utf-8") as f:

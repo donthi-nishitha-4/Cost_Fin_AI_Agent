@@ -71,12 +71,13 @@ def formatter_node(state: AgentState) -> AgentState:
             "message": state["validation_error"],
             "query": state["query"]
         }
-        # Assuming format_agent_response handles errors gracefully, otherwise just return it directly
-        # Let's return raw error for simplicity if validation failed
-        return {"final_response": error_result}
+        final = format_agent_response(error_result)
+        return {"final_response": final}
         
     # Otherwise format successful tool execution
     tool_result = state.get("tool_result")
+    if tool_result:
+        tool_result["query"] = state.get("query")
     final = format_agent_response(tool_result)
     return {"final_response": final}
 

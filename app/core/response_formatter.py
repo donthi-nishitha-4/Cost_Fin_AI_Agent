@@ -99,7 +99,16 @@ def format_system_analytics_answer(data: dict):
     if not result:
         return f"No results found for your query: {query}"
         
-    prompt = f"The user asked: '{query}'. The database returned this raw JSON data: {result}. Write a single concise, human-readable sentence answering the user's question using the data. Do not say 'The database returned' or show the raw JSON."
+    prompt = (
+        f"The user asked: '{query}'. The database returned this raw JSON data: {result}.\n"
+        "Write a concise, human-readable response (can be multiple sentences or a list if there are multiple items) answering the user's question using this data.\n"
+        "CRITICAL RULES:\n"
+        "1. You MUST list ALL subsystems and details returned in the database results. Do not omit or summarize any subsystems.\n"
+        "2. You MUST explicitly mention the subsystem ID (prefixed with the word 'Subsystem', e.g., 'Subsystem X') for every subsystem in the answer if the ID is available in the data.\n"
+        "3. You MUST explicitly include all relevant numeric cost values, planned budgets, and calculated metrics from the database results in your answer. Do not round off or skip any numbers. (This does NOT apply if the query only asks to find, list, or identify subsystems matching a condition without asking for their specific costs, in which case you should only list their names and IDs).\n"
+        "4. If there are multiple subsystems in the results (e.g. more than 3), format the response as a concise list or comma-separated string containing the subsystem ID (e.g., 'Subsystem X') and its main metric. Do NOT write long explanatory paragraphs or detailed breakdowns for each subsystem, so that the answer is compact and lists every subsystem without truncation.\n"
+        "5. Do not mention 'The database returned' or show the raw JSON format."
+    )
     
     response = get_llm().invoke(prompt)
     if hasattr(response, "content"):

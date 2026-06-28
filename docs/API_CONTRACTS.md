@@ -107,3 +107,9 @@ Success response:
   "overrun_risk": {}
 }
 ```
+
+## NLP Agent Dynamic Tool Executions (V1.2 Overrides)
+For natural language queries processed through `/agent?query=...`:
+1. **Aggregate Override**: Queries asking for sums, averages, counts, or severe overruns are dynamically rewritten inside `planner.py` to target the `"system_analytics"` tool, forcing `subsystem_id: 1` as default.
+2. **Comparison Override**: Queries comparing multiple subsystems (e.g. subsystem 12 and 19) are routed to `"system_analytics"` using SQL-level standard `WHERE id IN (12, 19)`.
+3. **Single-Subsystem Summary Override**: Queries asking for a summary of exactly 1 subsystem (e.g. `financial summary of subsystem 17`) are intercepted and routed straight to the `"financial_summary"` tool, guaranteeing 100% formatted template accuracy.

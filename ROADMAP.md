@@ -58,6 +58,16 @@
 - **Groq Integration**: Migrated to `llama-3.1-8b-instant` for blazing-fast 1.41s latency responses.
 - **LLM Shootout Benchmarking**: Proved an 8.8x inference speedup and a 20% jump in deterministic accuracy (from 43% to 63%) just by upgrading the model endpoint.
 - **Strict Golden Dataset (Phase 6.6)**: Completely purged LLM-generated tautology from ground truth evaluations. Revealed hidden V5 Evaluator regex bugs, achieving a measured **94.0% Math Accuracy with Groq** (and 92.0% with local Ollama). This proved the Agent's reasoning paths and calculations are flawless while exposing evaluator script limitations.
+- **Infrastructure Hardening**: Optimized PostgreSQL connection pooling and enforced `max_concurrency=2` in LangSmith evaluators to completely eliminate `psycopg.errors.ConnectionTimeout` and `429 RateLimitError` bottlenecks during batch load testing.
+
+---
+
+## Phase 1 Freeze - Local Model Optimization & V5 Hardening ✅
+
+- **Deterministic Routing Overrides**: Added split-word aggregate keyword parsing and single-subsystem summary checks directly in `planner.py` to route queries flawlessly without relying on LLM inference.
+- **SQL Prompt Hardening**: Banned table aliases, unions, and joins for multiple subsystems, forcing standard single-select `WHERE id IN (...)` queries to resolve psycopg errors.
+- **Concise Formatter Constraints**: Added a formatting prompt limit in `response_formatter.py` to output lists when results exceed 3 subsystems, preventing model laziness and list truncation.
+- **Local Benchmarking**: Deployed local evaluator script `evaluate_v5_local.py`, benchmarking local Ollama (Llama 3 8B) at **98.9%** overall pipeline score over 124 golden queries.
 
 ---
 

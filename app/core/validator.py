@@ -24,12 +24,12 @@ def validate_decision(decision):
             "message": "Planner selected an invalid tool"
         }
 
-    if tool == "none":
+    if tool in ["none", "system_analytics"]:
         return {
             "valid": True,
             "decision": {
-                "tool": "none",
-                "subsystem_id": None
+                "tool": tool,
+                "subsystem_id": decision.get("subsystem_id")
             }
         }
 

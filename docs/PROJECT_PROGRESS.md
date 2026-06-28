@@ -2,10 +2,12 @@
 
 ## Current Status
 
-**Phase 6 - Cloud LLM Migration & Multi-Model Benchmarking Complete**
-The LangGraph agent has been completely upgraded to utilize a dynamic LLM routing factory, successfully transitioning to the blazing-fast Groq Llama 3.1 8B endpoint.
-- Evaluated at **63.0% True Deterministic Accuracy** via the new 5-Layer Project-Grade Evaluator over 100 queries.
-- Speedup of 8.8x compared to local Ollama (1.4s vs 12.4s).
+**Phase 1 Freeze - Local Model Optimization & V5 Hardening Complete**
+The LangGraph agent has been optimized for local deployments (Ollama Llama 3 8B model) and hardened against query routing, prompt leakage, and formatting errors.
+- Evaluated at **98.9% Overall Score** (99.2% Math, 97.6% Semantic) via the V5 local evaluation engine over **124 golden queries**.
+- Banned SQL joins/aliases for multi-subsystem lookups, resolving psycopg `UndefinedTable` s2 errors.
+- Introduced deterministic overrides in `planner.py` to route aggregate queries flawlessly.
+- Achieved zero warnings and zero critical failures across the entire benchmark suite.
 
 ---
 

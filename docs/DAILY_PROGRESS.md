@@ -8,6 +8,39 @@ Before advancing to Phase 4, the Cost Finance AI Agent established a robust foun
 - **Phase 2 (Finance Services):** Expanded the agent's capabilities to include advanced financial calculations (Budget Comparison, Overrun Risk Analysis, and Financial Summaries). Engineered a human-readable response formatter alongside structured JSON outputs.
 - **Phase 3 (Persistence Layer):** Migrated from hardcoded mock data to an active PostgreSQL database using SQLAlchemy. Engineered automated schema creation, robust database seeding mechanisms, and a centralized `.env` configuration layer. Validated the migration with a comprehensive suite of 49 automated Pytest cases.
 
+## June 28, 2026 - Phase 1 Stable Freeze & V5 Local Hardening
+
+### Key Decisions Made
+1. **Banned SQL Unions, Joins, and Aliases for Multi-Subsystem Queries**:
+   - *Why?* Ollama often generated incorrect table aliases (`s1/s2`) and bad UNION/JOIN syntaxes, throwing `psycopg.errors.UndefinedTable` s2 errors.
+   - *Solution*: Added a strict prompt rule forcing standard single-select `WHERE id IN (...)` lookups.
+   - *Result*: Clean, standard SQL queries that execute in milliseconds without database errors.
+2. **Deterministic Planner Overrides**:
+   - *Why?* Llama 3 frequently failed to route aggregate (like `"average"`) and single-subsystem summary queries to correct endpoints.
+   - *Solution*: Implemented whitespace split aggregate keyword parsing and single-subsystem summary checks directly in `planner.py` to route queries flawlessly.
+   - *Result*: 100% stable intent routing.
+3. **Response Formatter Concise Constraints**:
+   - *Why?* In queries returning multiple subsystems (like severe overruns), Llama 3 wrote detailed multi-sentence breakdowns for each row, exceeding output limits and truncating lists.
+   - *Solution*: Added a prompt rule in `response_formatter.py` forcing compact lists/comma-separated sentences when results exceed 3 subsystems.
+   - *Result*: Secure, complete lists without model truncation.
+4. **V5 Evaluator Fixes**:
+   - *Why?* The evaluator corrupted floating-point costs when preceded by words, and incorrectly scrubbed expected subsystem IDs during aggregate lookup scoring.
+   - *Solution*: Added a lookahead regex and excluded aggregate/comparison intents from ID scrubbing in `evaluate_v5.py`.
+   - *Result*: Evaluated local Ollama (Llama 3 8B) at **98.9%** overall accuracy over 124 golden queries.
+
+## June 26, 2026 - Infrastructure Hardening & Load Mitigation
+
+### Key Decisions Made
+1. **Database Pooling Optimization**: Hardcoded SQLAlchemy `pool_size=10, max_overflow=50, pool_timeout=30`.
+   - *Why?* LangSmith evaluations were initiating 100 simultaneous LLM and PostgreSQL requests, causing `psycopg.errors.ConnectionTimeout` under load.
+   - *Result*: Stable database connections during batch evaluations.
+3. **LangSmith Throttling**: Injected `max_concurrency=2` into the LangSmith evaluator script.
+   - *Why?* Groq and OpenRouter instantly triggered `429 RateLimitError` blocks because the script was sending dozens of concurrent requests.
+   - *Result*: The evaluation suite is now rate-limit compliant, taking slightly longer but guaranteeing completion.
+4. **Dataset History Preservation**: Refactored `generate_golden_dataset.py` to use `update_example()` instead of `delete_dataset()`.
+   - *Why?* Deleting a dataset permanently wipes out historical evaluation runs and traces linked to it.
+   - *Result*: Safe, iterative dataset updates that preserve all historical benchmark metrics.
+
 ## June 18, 2026 - Phase 4: Advanced AI & Production Readiness
 
 ### Key Decisions Made

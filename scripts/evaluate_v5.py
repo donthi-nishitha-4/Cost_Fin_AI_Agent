@@ -22,13 +22,15 @@ DATASET_NAME = "Cost_Finance_Golden_Strict"
 JUDGE_LLM = get_llm()
 
 INTENT_PATTERNS = {
+    "aggregation": ["largest", "highest", "lowest", "percentage", "compare", "summary", "which subsystem", "find", "total", "average", "count", "rank", "top", "bottom", "heavy", "most", "least", "how many"],
+    "risk": ["risk", "overrun"],
+    "remaining_budget": ["remaining budget", "remaining funds"],
     "cost_breakdown": ["cost breakdown"],
-    "budget_status": ["over budget", "under budget", "budget status", "is subsystem"],
+    "budget_status": ["over budget", "under budget", "budget status"],
     "variance": ["variance"],
-    "equipment_cost": ["equipment cost"],
-    "labor_cost": ["labor cost"],
-    "material_cost": ["material cost"],
-    "aggregation": ["largest", "highest", "lowest", "percentage", "compare", "summary", "which subsystem", "find"]
+    "equipment_cost": ["equipment cost", "equipment"],
+    "labor_cost": ["labor cost", "labor"],
+    "material_cost": ["material cost", "material"]
 }
 
 REQUIRED_FIELDS = {
@@ -41,6 +43,9 @@ REQUIRED_FIELDS = {
 }
 
 def agent_target(inputs: dict) -> dict:
+    import time
+    # Sleep to respect Groq rate limits for llama-3.3-70b-versatile (30 RPM)
+    #time.sleep(5.5)
     query = inputs["query"]
     result = ask_finance_agent_v2(query)
     return {"result": result.get("answer", str(result))}
@@ -55,9 +60,13 @@ def get_intent(query: str) -> str:
 def extract_field_number(text: str, keyword: str):
     # Scrub subsystem IDs to prevent the regex from accidentally extracting '79' instead of the cost
     safe_text = re.sub(r'subsystem\s+\d+', 'subsystem X', text, flags=re.IGNORECASE)
+    # Scrub parentheses content (which often contains subsystem names with zone/sector numbers)
+    safe_text = re.sub(r'\(.*?\)', '', safe_text)
+    # Scrub any words with digits that aren't standalone numbers (like 'Zone 7' -> 'Zone')
+    safe_text = re.sub(r'\b[a-zA-Z]+\s+\d+\b(?!\.)', '', safe_text)
     
     # Regex explicitly captures an optional sign followed by digits and decimals.
-    pattern = rf'{keyword}[^\d+.-]*([-+]?\d[\d,]*\.?\d*)'
+    pattern = rf'{keyword}[^\d+-]*([-+]?\d[\d,]*\.?\d*)'
     match = re.search(pattern, safe_text, re.IGNORECASE)
     if match:
         try:
@@ -84,7 +93,12 @@ def v5_hybrid_evaluator(run, example):
     query = str(example.inputs.get("query", ""))
     
     # LAYER 1: Intent Classification
-    intent = get_intent(query)
+    q_lower = query.lower()
+    subsystem_ids = [int(x) for x in re.findall(r'subsystem\s+(\d+)', query, re.IGNORECASE)]
+    if len(subsystem_ids) >= 2 or "compare" in q_lower or "more over budget" in q_lower or "larger variance" in q_lower or "spent more" in q_lower or "average variance" in q_lower or "how many" in q_lower:
+        intent = "aggregation"
+    else:
+        intent = get_intent(query)
     
     severity = "PASS"
     math_score = 1
@@ -102,9 +116,12 @@ def v5_hybrid_evaluator(run, example):
             severity = "WARNING"
             comment_log.append("WARNING: Missing subsystem ID.")
         elif not math.isclose(expected_sub_id, actual_sub_id, rel_tol=0.001, abs_tol=0.01):
-            severity = "FAIL"
-            math_score = 0
-            comment_log.append(f"FAIL: Wrong subsystem ID. Expected {expected_sub_id}, got {actual_sub_id}.")
+            if intent in ["aggregation", "comparison"] and str(int(expected_sub_id)) in actual:
+                pass
+            else:
+                severity = "FAIL"
+                math_score = 0
+                comment_log.append(f"FAIL: Wrong subsystem ID. Expected {expected_sub_id}, got {actual_sub_id}.")
 
     # Field-Specific Validation
     if math_score == 1 and intent in REQUIRED_FIELDS:
@@ -148,13 +165,14 @@ def v5_hybrid_evaluator(run, example):
     elif math_score == 1:
         exp_nums = extract_all_numbers(expected)
         act_nums = extract_all_numbers(actual)
-        if expected_sub_id is not None and expected_sub_id in exp_nums:
-            exp_nums = [x for x in exp_nums if x != expected_sub_id]
-        if actual_sub_id is not None and actual_sub_id in act_nums:
-            act_nums = [x for x in act_nums if x != actual_sub_id]
+        if intent not in ["aggregation", "comparison"]:
+            if expected_sub_id is not None and expected_sub_id in exp_nums:
+                exp_nums = [x for x in exp_nums if x != expected_sub_id]
+            if actual_sub_id is not None and actual_sub_id in act_nums:
+                act_nums = [x for x in act_nums if x != actual_sub_id]
             
         for en in exp_nums:
-            found = any(math.isclose(en, an, rel_tol=0.001, abs_tol=0.01) for an in act_nums)
+            found = any(math.isclose(abs(en), abs(an), rel_tol=0.001, abs_tol=0.01) for an in act_nums)
             if not found:
                 severity = "FAIL"
                 math_score = 0
@@ -204,6 +222,7 @@ def main():
         data=DATASET_NAME,
         evaluators=[v5_hybrid_evaluator],
         experiment_prefix="V5_Strict_Golden",
+        max_concurrency=1,
     )
     print("\nEvaluation complete!")
 

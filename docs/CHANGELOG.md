@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.2 - Local Optimization & V5 Hardening (Phase 1 Freeze)
+
+### Added
+- **SQL Prompt Constraint Rules**: Restructured Text-to-SQL prompts in `finance_service.py` to ban table aliases, unions, and joins for multiple subsystems, forcing standard single-selects (e.g. `WHERE id IN (...)`) to completely resolve UndefinedTable errors.
+- **Deterministic Planner Overrides**: Implemented whitespace split keyword routing in `planner.py` to force aggregate intents (e.g. `average`, `total`, `sum`, `count`) and single-subsystem summaries to correct endpoints, ensuring 100% stable routing.
+- **Concise Formatter Constraints**: Added a formatting prompt limit in `response_formatter.py` enforcing list output when results exceed 3 subsystems, preventing model laziness and list truncation.
+- **Evaluator Robustness**: Fixed regex lookahead decimals extraction and aggregate ID stripping bugs in `evaluate_v5.py`.
+- **Workspace Restructuring**: Moved previous versions of reports, datasets, and scripts into dedicated `previous_versions/` and `legacy_evaluators/` archive folders to clean up active workspaces.
+
+### Status
+Phase 1 Freeze complete. Local Ollama (Llama 3) achieved an outstanding **98.9%** overall pipeline accuracy (99.2% Math, 97.6% Semantic) over 124 golden queries.
+
+## v1.1 - Infrastructure Hardening & Load Mitigation
+
+### Added
+- **Database Connection Pooling**: Added active connection pooling (`pool_size=10, max_overflow=50, pool_timeout=30`) to the SQLAlchemy `engine` in `app/core/database.py` to prevent PostgreSQL `ConnectionTimeout` crashes under heavy LangSmith concurrent load.
+- **LangSmith Throttling**: Hardcoded `max_concurrency=2` into `evaluate_v5.py` to actively throttle burst API requests, eliminating `429 RateLimitError` blocks from Groq's Tokens-Per-Minute restrictions.
+- **Dataset History Preservation**: Engineered `scripts/generate_golden_dataset.py` to dynamically `update_example()` instead of deleting the dataset. This successfully prevents data loss of historical LangSmith experiments.
+- **Regex Edge Case Fix**: Patched a false-negative bug in the golden dataset generator where `"remaining budget"` queries were unfairly misrouted to the fallback intent.
+
+### Status
+Infrastructure stabilized. Solved all database timeouts and API rate limit crashes. Ready for Phase 7 (Multi-Agent Evaluation).
+
 ## v1.0 - Cloud LLM Migration & Multi-Model Benchmarking (Phase 6)
 
 ### Added

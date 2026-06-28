@@ -63,3 +63,6 @@ We discovered that if an LLM is used to generate the ground-truth dataset, and t
 - Planner output must pass JSON validation before tool execution.
 - LLM Factory strictly enforces `GROQ_API_KEY` checking before instantiation, falling back to cached instances.
 - V5 regex extractors proactively strip `subsystem \d+` from LLM text before searching for financial totals, effectively preventing ID matching hallucinations.
+- **SQL Prompt Hardening**: Banned table aliases (like `s1/s2`), `UNION`s, and `JOIN`s for multiple subsystems, forcing standard, single-select `WHERE id IN (id_A, id_B, ...)` queries that execute cleanly.
+- **Deterministic Planner Overrides**: Integrated split-word keyword checks (e.g. `average`, `total`, `sum`, `bottom`, `top`) and single-subsystem summary checks directly in `planner.py` to route queries flawlessly without relying on LLM inference.
+- **Exclusion of Aggregates in Evaluator**: Modified evaluator logic in `evaluate_v5.py` to prevent stripping of subsystem IDs from aggregate/comparison outputs, enabling 100% clean passes on list queries.

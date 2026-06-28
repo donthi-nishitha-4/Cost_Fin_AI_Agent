@@ -183,11 +183,25 @@ The database has a table named 'finance_subsystems' with the following schema:
 - material_cost (Float)
 - equipment_cost (Float)
 
+CRITICAL SQL INSTRUCTION: Generate a standard SQL query that SELECTs the relevant raw columns or rows from 'finance_subsystems' (or uses aggregates like SUM, AVG, COUNT). You may perform basic mathematical calculations (like additions/subtractions, e.g., planned_cost - actual_cost) and sorting (ORDER BY ... LIMIT) directly in the SQL.
+1. Do NOT perform complex string formatting, CASE statements, or text concatenations inside the SQL.
+2. If the query compares or queries MULTIPLE subsystem IDs, you MUST use a simple 'WHERE id IN (id_A, id_B, ...)' clause. Do NOT use JOINs, UNIONs, table aliases, or multiple SELECT blocks.
+3. Always place all filter conditions in the WHERE clause BEFORE any ORDER BY or LIMIT clauses. Never place filter conditions after LIMIT.
+4. For queries listing or describing specific subsystems, you MUST always include the 'id' column in your SELECT statement so the subsystem ID is available in the results. (This does NOT apply to aggregate queries that calculate counts, sums, or averages, such as 'COUNT(*)' or 'AVG(...)').
+5. If the query asks for planned cost, actual cost, variance, overrun, or budget details of specific subsystems, you MUST include both 'planned_cost' and 'actual_cost' in your SELECT statement.
+
 Return ONLY the raw SQL query string. Do not include markdown tags (like ```sql) or any explanations.
 
 Hints:
 - "severe overruns" means actual_cost > 1.3 * planned_cost
 - "underspend" means planned_cost - actual_cost
+- "over budget" means actual_cost > planned_cost
+- "under budget" means actual_cost <= planned_cost
+- "variance" means planned_cost - actual_cost (deficit/overrun is negative, surplus/underspend is positive)
+- "bottom 5 variances" means the 5 lowest values of variance (which will be the most negative/worst overruns). You MUST use 'ORDER BY (planned_cost - actual_cost) ASC LIMIT 5' in your SQL query.
+- "top 5 overruns" means the 5 highest values of overrun. You MUST use 'ORDER BY (actual_cost - planned_cost) DESC LIMIT 5' in your SQL query.
+- "overrun" means actual_cost - planned_cost
+- "X-heavy" (e.g., labor-heavy, material-heavy, equipment-heavy) means you MUST select and sort by the ratio of that component over direct costs (e.g., 'SELECT id, subsystem_name, X_cost / (labor_cost + material_cost + equipment_cost) AS ratio FROM finance_subsystems ORDER BY ratio DESC LIMIT 1').
 
 Query: {query}
 """
