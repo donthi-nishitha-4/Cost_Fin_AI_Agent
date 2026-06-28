@@ -66,7 +66,7 @@ This document summarizes the core technical deliverables produced during the AI 
   - Completely bypasses the LLM to prevent evaluation tautology ("grading its own homework").
 - **Value:** Revealed hidden flaws in evaluator routing regex and achieved a measured **94.0% Math Accuracy with Groq (92.0% with Ollama)** across 100 diverse edge cases, proving the Agent architecture is highly accurate regardless of the LLM provider.
 
-## 10. Local Model Optimization & V5 Hardening (Phase 1 Freeze)
+## 10. Local Model Optimization & V5 Hardening (Phase 7.1)
 - **Deliverable:** `scripts/evaluate_v5_local.py`, `app/core/planner.py` overrides, and SQL constraints.
 - **Features:**
   - Banned SQL aliases/joins for multiple subsystem queries, eliminating `UndefinedTable` errors.

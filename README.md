@@ -4,7 +4,7 @@ Enterprise-style AI Agent for cost estimation, budget tracking, and finance anal
 
 ## Current Version
 
-**v1.2 (Phase 1 Freeze - Local Model Stable Optimization)** is complete.
+**v1.2 (Phase 7.1 - Local Model Stable Optimization)** is complete.
 - **Local Model Accuracy**: Local evaluation benchmark using Ollama `llama3` local model achieves a mathematically proven **98.9% Overall Score** (99.2% Math, 97.6% Semantic Match) across **124 golden queries** via the hardened V5 evaluator.
 - **Safe SQL Translation**: Restructured prompts ban table joins and aliases for multi-subsystem lookups, ensuring psycopg compatibility and preventing SQL injection/hallucinations.
 - **Deterministic Routing**: Integrated split-word keyword checks (e.g. `average`, `total`, `sum`, `count`) and single-subsystem summary checks directly in `planner.py` to route queries flawlessly without relying on LLM inference.

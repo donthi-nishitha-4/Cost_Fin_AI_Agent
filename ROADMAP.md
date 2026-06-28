@@ -62,7 +62,7 @@
 
 ---
 
-## Phase 1 Freeze - Local Model Optimization & V5 Hardening ✅
+## Phase 7.1 - Local Model Optimization & V5 Hardening ✅
 
 - **Deterministic Routing Overrides**: Added split-word aggregate keyword parsing and single-subsystem summary checks directly in `planner.py` to route queries flawlessly without relying on LLM inference.
 - **SQL Prompt Hardening**: Banned table aliases, unions, and joins for multiple subsystems, forcing standard single-select `WHERE id IN (...)` queries to resolve psycopg errors.

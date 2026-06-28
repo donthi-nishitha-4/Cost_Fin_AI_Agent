@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.2 - Local Optimization & V5 Hardening (Phase 1 Freeze)
+## v1.2 - Local Optimization & V5 Hardening (Phase 7.1)
 
 ### Added
 - **SQL Prompt Constraint Rules**: Restructured Text-to-SQL prompts in `finance_service.py` to ban table aliases, unions, and joins for multiple subsystems, forcing standard single-selects (e.g. `WHERE id IN (...)`) to completely resolve UndefinedTable errors.
@@ -10,7 +10,7 @@
 - **Workspace Restructuring**: Moved previous versions of reports, datasets, and scripts into dedicated `previous_versions/` and `legacy_evaluators/` archive folders to clean up active workspaces.
 
 ### Status
-Phase 1 Freeze complete. Local Ollama (Llama 3) achieved an outstanding **98.9%** overall pipeline accuracy (99.2% Math, 97.6% Semantic) over 124 golden queries.
+Phase 7.1 complete. Local Ollama (Llama 3) achieved an outstanding **98.9%** overall pipeline accuracy (99.2% Math, 97.6% Semantic) over 124 golden queries.
 
 ## v1.1 - Infrastructure Hardening & Load Mitigation
 

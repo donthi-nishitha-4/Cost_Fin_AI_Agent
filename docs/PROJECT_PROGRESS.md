@@ -2,7 +2,7 @@
 
 ## Current Status
 
-**Phase 1 Freeze - Local Model Optimization & V5 Hardening Complete**
+**Phase 7.1 - Local Model Optimization & V5 Hardening Complete**
 The LangGraph agent has been optimized for local deployments (Ollama Llama 3 8B model) and hardened against query routing, prompt leakage, and formatting errors.
 - Evaluated at **98.9% Overall Score** (99.2% Math, 97.6% Semantic) via the V5 local evaluation engine over **124 golden queries**.
 - Banned SQL joins/aliases for multi-subsystem lookups, resolving psycopg `UndefinedTable` s2 errors.
