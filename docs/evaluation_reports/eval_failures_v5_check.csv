@@ -1,4 +1,6 @@
 Query,Expected,Actual,Intent,Severity,CombinedScore,Reason
+Compare two subsystems.,Out of scope,No results found for your query: Compare two subsystems.,aggregation,PASS,0.7,INFO: Perfect match.
+Show subsystem cost.,Please specify which subsystem you are asking about.,"{'status': 'error', 'message': 'Planner must provide a numeric subsystem_id', 'query': 'Show subsystem cost.'}",unknown,PASS,0.7,INFO: Perfect match.
 Find severe overruns.,"There are 15 subsystems with severe overruns: 2, 18, 24, 29, 37, 39, 51, 69, 72, 74, 76, 84, 85, 91, 97.","Severe overruns were found in the following subsystems:
 
 * Subsystem 2: Structural Steel - Tower B (planned cost: $600,000.00, actual cost: $980,000.00)
@@ -6,3 +8,12 @@ Find severe overruns.,"There are 15 subsystems with severe overruns: 2, 18, 24, 
 * Subsystem 84: Fire Protection - Sector 1 (planned cost: $662,572.46, actual cost: $1,030,701.69)
 
 These subsystems had significant deviations from their planned budgets, indicating severe overruns.",aggregation,FAIL,0.5,FAIL: Missing expected generic number: 15.0 | FAIL: Missing expected generic number: 18.0 | FAIL: Missing expected generic number: 24.0 | FAIL: Missing expected generic number: 29.0 | FAIL: Missing expected generic number: 37.0 | FAIL: Missing expected generic number: 51.0 | FAIL: Missing expected generic number: 69.0 | FAIL: Missing expected generic number: 72.0 | FAIL: Missing expected generic number: 74.0 | FAIL: Missing expected generic number: 76.0 | FAIL: Missing expected generic number: 85.0 | FAIL: Missing expected generic number: 91.0 | FAIL: Missing expected generic number: 97.0
+Which subsystem has zero planned budget?,Subsystem 24 has a zero planned budget.,"Based on the provided data, there are no subsystems with zero planned budget. Here is a list of all subsystems and their corresponding IDs:
+
+* Subsystem 24: Site Development - Sector 2
+* Subsystem 37: Electrical - Tower B
+* Subsystem 51: Landscaping - Building C
+* Subsystem 72: Wastewater - Tower B
+* Subsystem 85: Roads - Wing 3
+
+All of these subsystems have planned budgets, and none of them have zero planned budget.",aggregation,PASS,0.7,INFO: Perfect match.
